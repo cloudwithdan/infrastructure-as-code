@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./production.yaml
   - ./certificate.yaml
+  - ./avto-masini-production.yaml

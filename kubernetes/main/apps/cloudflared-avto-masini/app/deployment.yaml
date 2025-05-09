@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cloudflared
+  name: &app cloudflared
+  namespace: cloudflared-avto-masini
+spec:
+  selector:
+    matchLabels:
+      app: cloudflared
+  template:
+    metadata:
+      labels:
+        app: cloudflared
+    spec:
+      containers:
+        - name: cloudflared
+          image: cloudflare/cloudflared:latest
+          imagePullPolicy: Always
+          args:
+            [
+              "tunnel",
+              "--no-autoupdate",
+              "run",
+              "--token=$(token)",
+            ]
+          env:
+            - name: token
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflared-token
+                  key: token
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
