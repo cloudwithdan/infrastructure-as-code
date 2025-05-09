@@ -34,7 +34,30 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: ingress-nginx-certificates
-  path: ./kubernetes/main/apps/ingress-nginx/app
+  path: ./kubernetes/main/apps/ingress-nginx/external
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app ingress-nginx-avto-masini
+  namespace: flux-system
+spec:
+  targetNamespace: ingress-nginx
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: ingress-nginx-certificates
+  path: ./kubernetes/main/apps/ingress-nginx/avto-masini
   prune: true
   sourceRef:
     kind: GitRepository
