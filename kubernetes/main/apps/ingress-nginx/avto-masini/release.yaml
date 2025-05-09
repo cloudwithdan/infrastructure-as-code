@@ -37,7 +37,7 @@ spec:
       ingressClassResource:
         name: avto-masini
         default: false
-        controllerValue: k8s.io/external
+        controllerValue: k8s.io/avto-masini
       admissionWebhooks:
         objectSelector:
           matchExpressions:
