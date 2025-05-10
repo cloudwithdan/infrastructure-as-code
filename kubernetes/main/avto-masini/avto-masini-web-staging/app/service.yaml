@@ -7,7 +7,7 @@ spec:
   ports:
     - name: avto-masini-web-staging
       port: 80
-      targetPort: avto-masini-staging
+      targetPort: staging-svc
   selector:
     app: avto-masini-web-staging
   type: ClusterIP
