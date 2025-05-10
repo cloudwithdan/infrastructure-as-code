@@ -5,7 +5,7 @@ metadata:
   name: &app avto-masini-web
   namespace: flux-system
 spec:
-  targetNamespace: avto-masini-web
+  targetNamespace: avto-masini
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
