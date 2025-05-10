@@ -6,7 +6,7 @@ metadata:
 spec:
   ports:
     - name: avto-masini-web
-      port: 8080
+      port: 80
       targetPort: avto-masini-web
   selector:
     app: avto-masini-web
