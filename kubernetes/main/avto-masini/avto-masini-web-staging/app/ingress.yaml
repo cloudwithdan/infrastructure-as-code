@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: avto-masini-web-ingress
-  namespace: avto-masini
+  namespace: avto-masini-staging
   annotations:
     external-dns.alpha.kubernetes.io/target: "${SECRET_PROD_DOMAIN}"
     external-dns.alpha.kubernetes.io/hostname: "${SECRET_PROD_DOMAIN}"
@@ -18,7 +18,7 @@ metadata:
 spec:
   ingressClassName: avto-masini
   rules:
-    - host: "${SECRET_PROD_DOMAIN}"
+    - host: "staging.${SECRET_PROD_DOMAIN}"
       http:
         paths:
           - path: /
