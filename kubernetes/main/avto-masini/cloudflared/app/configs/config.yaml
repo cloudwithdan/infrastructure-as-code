@@ -4,7 +4,7 @@ originRequest:
 
 ingress:
   - hostname: "${SECRET_PROD_DOMAIN}"
-    service: https://ingress-nginx-avto-masini-controller.ingress-nginx.svc.cluster.local:443
+    service: https://ingress-nginx-avto-masini-controller.avto-masini.svc.cluster.local:443
   - hostname: "*.${SECRET_PROD_DOMAIN}"
-    service: https://ingress-nginx-avto-masini-controller.ingress-nginx.svc.cluster.local:443
+    service: https://ingress-nginx-avto-masini-controller.avto-masini.svc.cluster.local:443
   - service: http_status:404
