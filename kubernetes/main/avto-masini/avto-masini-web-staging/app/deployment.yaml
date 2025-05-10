@@ -24,7 +24,7 @@ spec:
             requests:
               memory: "64Mi"
               cpu: "250m"
-          image: registry.gitlab.com/avto-masini/avto-masini-web:ci-build-d9d108e9
+          image: registry.gitlab.com/avto-masini/avto-masini-web:ci-build-1b5a6fe3
           imagePullPolicy: Always
           ports:
             - name: avto-masini-web
