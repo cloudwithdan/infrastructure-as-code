@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: avto-masini-web
-  namespace: avto-masini-staging
+  name: avto-masini-web-staging
+  namespace: avto-masini
 spec:
   ports:
-    - name: avto-masini-web
+    - name: avto-masini-web-staging
       port: 80
-      targetPort: avto-masini-web
+      targetPort: avto-masini-web-staging
   selector:
-    app: avto-masini-web
+    app: avto-masini-web-staging
   type: ClusterIP

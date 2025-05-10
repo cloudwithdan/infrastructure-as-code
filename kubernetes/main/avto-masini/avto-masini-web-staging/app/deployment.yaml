@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: avto-masini-web-stagig
-  namespace: avto-masini-staging
+  name: avto-masini-web-staging
+  namespace: avto-masini
   labels:
-    app: avto-masini-web
+    app: avto-masini-web-staging
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: avto-masini-web
+      app: avto-masini-web-staging
   template:
     metadata:
       labels:
-        app: avto-masini-web
+        app: avto-masini-web-staging
     spec:
       containers:
-        - name: avto-masini-web
+        - name: avto-masini-web-staging
           resources:
             limits:
               memory: "128Mi"
@@ -27,7 +27,7 @@ spec:
           image: registry.gitlab.com/avto-masini/avto-masini-web:ci-build-1b5a6fe3
           imagePullPolicy: Always
           ports:
-            - name: avto-masini-web
+            - name: avto-masini-web-staging
               containerPort: 80
           livenessProbe:
             httpGet:
