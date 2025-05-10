@@ -22,7 +22,7 @@ spec:
     remediation:
       retries: 3
   dependsOn:
-    - name: cloudflared
+    - name: cloudflared-avto-masini
       namespace: avto-masini
   values:
     fullnameOverride: ingress-nginx-avto-masini
