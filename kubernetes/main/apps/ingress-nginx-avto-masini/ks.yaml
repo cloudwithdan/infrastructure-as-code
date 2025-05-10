@@ -25,7 +25,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app ingress-nginx-avto-masini
+  name: &app ingress-nginx
   namespace: flux-system
 spec:
   targetNamespace: ingress-nginx-avto-masini
