@@ -1,0 +1,15 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: "${SECRET_PROD_DOMAIN/./-}-production"
+  namespace: ingress-nginx
+spec:
+  secretName: "${SECRET_PROD_DOMAIN/./-}-production-tls"
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "${SECRET_PROD_DOMAIN}"
+  dnsNames:
+    - "${SECRET_PROD_DOMAIN}"
+    - "*.${SECRET_PROD_DOMAIN}"
