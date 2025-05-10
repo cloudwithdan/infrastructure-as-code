@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: avto-masini-avto-masini-web
+  namespace: avto-masini-web
+  labels:
+    app: avto-masini-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: avto-masini-web
+  template:
+    metadata:
+      labels:
+        app: avto-masini-web
+    spec:
+      containers:
+        - name: avto-masini-web
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+          image: registry.gitlab.com/avto-masini/avto-masini-web:ci-build-0b19d18b
+          imagePullPolicy: Always
+          ports:
+            - name: avto-masini-web
+              containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp/
+          securityContext:
+            runAsUser: 1000 # Non-root user
+            runAsGroup: 3000 # Non-root group
+            readOnlyRootFilesystem: true # Read-only filesystem
+            allowPrivilegeEscalation: false # No privilege escalation
+            privileged: false
+            capabilities:
+              drop:
+                - ALL # Drop all capabilities
+              add:
+                - NET_BIND_SERVICE # Allow only required capabilities
+      imagePullSecrets:
+        - name: pull-token
+      volumes:
+        - name: tmp
+          emptyDir: {}

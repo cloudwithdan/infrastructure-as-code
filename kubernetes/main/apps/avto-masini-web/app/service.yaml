@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: avto-masini-web
+  namespace: avto-masini-web
+spec:
+  ports:
+    - name: avto-masini-web
+      port: 8080
+      targetPort: avto-masini-web
+  selector:
+    app: avto-masini-web
+  type: ClusterIP
