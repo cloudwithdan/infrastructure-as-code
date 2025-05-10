@@ -27,7 +27,7 @@ spec:
           image: registry.gitlab.com/avto-masini/avto-masini-web:ci-build-1b5a6fe3
           imagePullPolicy: Always
           ports:
-            - name: avto-masini-web-staging
+            - name: avto-masini-staging
               containerPort: 80
           livenessProbe:
             httpGet:
