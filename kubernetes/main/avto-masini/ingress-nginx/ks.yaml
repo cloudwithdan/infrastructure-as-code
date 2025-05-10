@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager-issuers
-  path: ./kubernetes/main/avto-masini/ingress-nginx-avto-masini/certificates
+  path: ./kubernetes/main/avto-masini/ingress-nginx/certificates
   prune: true
   sourceRef:
     kind: GitRepository
@@ -34,7 +34,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: ingress-nginx-certificates
-  path: ./kubernetes/main/avto-masini/ingress-nginx-avto-masini/app
+  path: ./kubernetes/main/avto-masini/ingress-nginx/app
   prune: true
   sourceRef:
     kind: GitRepository

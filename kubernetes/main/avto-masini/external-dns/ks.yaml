@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/main/avto-masini/external-dns/avto-masini
+  path: ./kubernetes/main/avto-masini/external-dns/app
   prune: true
   sourceRef:
     kind: GitRepository
