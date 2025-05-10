@@ -3,7 +3,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: "${SECRET_PROD_DOMAIN/./-}-production"
-  namespace: ingress-nginx
+  namespace: avto-masini
 spec:
   secretName: "${SECRET_PROD_DOMAIN/./-}-production-tls"
   issuerRef:

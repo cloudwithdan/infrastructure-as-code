@@ -5,13 +5,13 @@ metadata:
   name: &app ingress-nginx-certificates
   namespace: flux-system
 spec:
-  targetNamespace: ingress-nginx
+  targetNamespace: avto-masini
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager-issuers
-  path: ./kubernetes/main/apps/ingress-nginx-avto-masini/certificates
+  path: ./kubernetes/main/avto-masini/ingress-nginx-avto-masini/certificates
   prune: true
   sourceRef:
     kind: GitRepository
@@ -28,13 +28,13 @@ metadata:
   name: &app ingress-nginx
   namespace: flux-system
 spec:
-  targetNamespace: ingress-nginx-avto-masini
+  targetNamespace: avto-masini
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: ingress-nginx-certificates
-  path: ./kubernetes/main/apps/ingress-nginx-avto-masini/app
+  path: ./kubernetes/main/avto-masini/ingress-nginx-avto-masini/app
   prune: true
   sourceRef:
     kind: GitRepository

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: avto-masini-avto-masini-web
-  namespace: avto-masini-web
+  namespace: avto-masini
   labels:
     app: avto-masini-web
 spec:

@@ -4,7 +4,7 @@ metadata:
   labels:
     app: cloudflared
   name: &app cloudflared
-  namespace: cloudflared-avto-masini
+  namespace: avto-masini
 spec:
   selector:
     matchLabels:

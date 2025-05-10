@@ -4,7 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: cloudflared-avto-masini
-  namespace: cloudflared-avto-masini
+  namespace: avto-masini
 spec:
   interval: 30m
   chart:
@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: bjw-s
-        namespace: cloudflared-avto-masini
+        namespace: avto-masini
   # DEPENDS ON EXTERNAL-DNS ?, EXTERNAL-DNS DEPENDS ON NGINX-INGRESS
   install:
     remediation:
