@@ -73,7 +73,7 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        default-ssl-certificate: "ingress-nginx/${SECRET_PROD_DOMAIN/./-}-production-tls"
+        default-ssl-certificate: "ingress-nginx-avto-masini/${SECRET_PROD_DOMAIN/./-}-production-tls"
       resources:
         requests:
           cpu: 100m
