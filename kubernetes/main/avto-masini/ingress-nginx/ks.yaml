@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app ingress-nginx-certificates
+  name: &app avto-masini-ingress-nginx-certificates
   namespace: flux-system
 spec:
   targetNamespace: avto-masini
@@ -33,7 +33,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: ingress-nginx-certificates
+    - name: avto-masini-ingress-nginx-certificates
   path: ./kubernetes/main/avto-masini/ingress-nginx/app
   prune: true
   sourceRef:
