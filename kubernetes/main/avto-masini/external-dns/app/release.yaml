@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app external-dns
+  name: &app external-dns-avto-masini
   namespace: avto-masini
 spec:
   interval: 30m
