@@ -24,7 +24,7 @@ spec:
             requests:
               memory: "64Mi"
               cpu: "250m"
-          image: registry.gitlab.com/avto-masini/avto-masini-web:ci-build-1b5a6fe3
+          image: registry.gitlab.com/avto-masini/avto-masini-web:ci-build-cad64b57
           imagePullPolicy: Always
           ports:
             - name: staging-svc
