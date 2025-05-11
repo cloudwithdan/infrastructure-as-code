@@ -18,7 +18,7 @@ metadata:
 spec:
   ingressClassName: avto-masini
   rules:
-    - host: "staging.${SECRET_PROD_DOMAIN}"
+    - host: "${SECRET_PROD_DOMAIN}"
       http:
         paths:
           - path: /
