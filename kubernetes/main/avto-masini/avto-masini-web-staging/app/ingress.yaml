@@ -25,6 +25,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: avto-masini-web
+                name: staging-svc
                 port:
-                  name: avto-masini-web
+                  name: staging-svc
