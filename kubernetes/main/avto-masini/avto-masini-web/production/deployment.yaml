@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: avto-masini-web-production
+  namespace: avto-masini
+  labels:
+    app: avto-masini-web-production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: avto-masini-web-production
+  template:
+    metadata:
+      labels:
+        app: avto-masini-web-production
+    spec:
+      containers:
+        - name: avto-masini-web-production
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+          image: registry.gitlab.com/avto-masini/avto-masini-web:v0.1.1
+          imagePullPolicy: Always
+          ports:
+            - name: prod-svc
+              containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp/
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: run
+              mountPath: /run
+          securityContext:
+            runAsUser: 1000 # Non-root user
+            runAsGroup: 3000 # Non-root group
+            readOnlyRootFilesystem: true # Read-only filesystem
+            allowPrivilegeEscalation: false # No privilege escalation
+            privileged: false
+            capabilities:
+              drop:
+                - ALL # Drop all capabilities
+              add:
+                - NET_BIND_SERVICE # Allow only required capabilities
+      imagePullSecrets:
+        - name: pull-token
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: nginx-cache
+          emptyDir: {}
+        - name: run
+          emptyDir: {}
