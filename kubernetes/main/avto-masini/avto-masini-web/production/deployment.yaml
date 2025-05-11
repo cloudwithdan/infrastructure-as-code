@@ -24,7 +24,7 @@ spec:
             requests:
               memory: "64Mi"
               cpu: "250m"
-          image: registry.gitlab.com/avto-masini/avto-masini-web:v0.1.6
+          image: registry.gitlab.com/avto-masini/avto-masini-web:v0.1.7
           imagePullPolicy: Always
           ports:
             - name: prod-svc
