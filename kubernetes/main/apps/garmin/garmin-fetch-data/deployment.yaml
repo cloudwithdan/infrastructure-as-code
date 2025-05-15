@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: garmin-fetch-data
+  namespace: garmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: garmin-fetch-data
+  template:
+    metadata:
+      labels:
+        app: garmin-fetch-data
+    spec:
+      securityContext:
+        runAsUser: 0  # 0 is the UID for root
+        runAsGroup: 0
+      containers:
+        - name: garmin-fetch-data
+          image: thisisarpanghosh/garmin-fetch-data:latest
+          env:
+            - name: INFLUXDB_HOST
+              value: "influxdb.garmin.svc.cluster.local"
+            - name: INFLUXDB_PORT
+              value: "8086"
+            - name: INFLUXDB_USERNAME
+              value: "influxdb_user"
+            - name: INFLUXDB_PASSWORD
+              value: "influxdb_secret_password"
+            - name: INFLUXDB_DATABASE
+              value: "GarminStats"
+            - name: GARMINCONNECT_IS_CN
+              value: "False"
+          volumeMounts:
+            - name: garminconnect-tokens
+              mountPath: /home/appuser/.garminconnect
+            - name: oauth1-token
+              mountPath: /home/appuser/oauth1_token.json
+              subPath: oauth1_token.json
+            - name: oauth2-token
+              mountPath: /home/appuser/oauth2_token.json
+              subPath: oauth1_token.json
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1000Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+      volumes:
+        - name: garminconnect-tokens
+          persistentVolumeClaim:
+            claimName: garminconnect-tokens-pvc
+        - name: oauth1-token
+          secret:
+            secretName: garmin-secret
+            items:
+              - key: oauth1_token.json
+                path: oauth1_token.json
+        - name: oauth2-token
+          secret:
+            secretName: garmin-secret
+            items:
+              - key: oauth2_token.json
+                path: oauth2_token.json

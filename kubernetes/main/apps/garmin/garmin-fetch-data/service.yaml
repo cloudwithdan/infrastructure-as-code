@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: garmin-fetch-data
+  namespace: garmin
+spec:
+  ports:
+    - port: 8086
+      targetPort: 8086
+  selector:
+    app: garmin-fetch-data
