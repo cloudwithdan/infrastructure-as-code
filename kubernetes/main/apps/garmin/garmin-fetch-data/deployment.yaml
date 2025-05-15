@@ -35,12 +35,12 @@ spec:
               value: "False"
           volumeMounts:
             - name: garminconnect-tokens
-              mountPath: /home/appuser/.garminconnect
+              mountPath: /root/.garminconnect/.garminconnect
             - name: oauth1-token
-              mountPath: /home/appuser/oauth1_token.json
+              mountPath: /root/.garminconnect/oauth1_token.json
               subPath: oauth1_token.json
             - name: oauth2-token
-              mountPath: /home/appuser/oauth2_token.json
+              mountPath: /root/.garminconnect/oauth2_token.json
               subPath: oauth1_token.json
           resources:
             limits:
