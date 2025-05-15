@@ -34,8 +34,6 @@ spec:
             - name: GARMINCONNECT_IS_CN
               value: "False"
           volumeMounts:
-            - name: garminconnect-tokens
-              mountPath: /root/.garminconnect/.garminconnect
             - name: oauth1-token
               mountPath: /root/.garminconnect/oauth1_token.json
               subPath: oauth1_token.json
@@ -50,9 +48,6 @@ spec:
               cpu: 100m
               memory: 256Mi
       volumes:
-        - name: garminconnect-tokens
-          persistentVolumeClaim:
-            claimName: garminconnect-tokens-pvc
         - name: oauth1-token
           secret:
             secretName: garmin-secret
