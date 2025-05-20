@@ -85,15 +85,6 @@ spec:
           gnetId: 11454
           revision: 14
           datasource: Prometheus
-        # minio:
-        #   # renovate: depName="MinIO Dashboard"
-        #   gnetId: 13502
-        #   revision: 26
-        #   datasource:
-        #     - { name: DS_PROMETHEUS, value: Prometheus }
-        # miniflux:
-        #   url: https://raw.githubusercontent.com/miniflux/v2/main/contrib/grafana/dashboard.json
-        #   datasource: Prometheus
         nginx:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
           datasource: Prometheus
@@ -113,6 +104,11 @@ spec:
           gnetId: 19105
           revision: 7
           datasource: Prometheus
+        pihole-exporter:
+          # renovate: depName="Prometheus"
+          gnetId: 10176
+          revision: 3
+          datasource: Prometheus
     sidecar:
       dashboards:
         enabled: true
@@ -121,7 +117,7 @@ spec:
         labelValue: "1"
         folderAnnotation: grafana_folder
         provider:
-          disableDelete: true
+          disableDelete: false
           foldersFromFilesStructure: true
           allowUiUpdates: true
       datasources:
