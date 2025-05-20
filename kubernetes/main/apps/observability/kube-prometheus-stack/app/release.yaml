@@ -29,7 +29,7 @@ spec:
           k8s-app: kube-state-metrics
 
     alertmanager:
-      enabled: false
+      enabled: true
 
     prometheus:
       prometheusSpec:
@@ -42,6 +42,10 @@ spec:
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
+        additionalScrapeConfigs:
+          - job_name: "pihole"
+            static_configs:
+                - targets: ["http://pihole-exporter.pihole-system.svc.cluster.local:9617"]
 
     prometheusOperator:
       verticalPodAutoscaler:
