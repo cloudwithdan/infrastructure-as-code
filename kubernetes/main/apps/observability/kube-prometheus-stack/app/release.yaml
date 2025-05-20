@@ -45,7 +45,7 @@ spec:
         additionalScrapeConfigs:
           - job_name: "pihole"
             static_configs:
-              - targets: ["http://pihole-exporter.pihole-system.svc.cluster.local:9617"]
+              - targets: ["pihole-exporter.pihole-system.svc.cluster.local:9617"]
 
     prometheusOperator:
       verticalPodAutoscaler:
