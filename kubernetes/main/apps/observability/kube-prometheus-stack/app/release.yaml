@@ -30,6 +30,8 @@ spec:
 
     alertmanager:
       enabled: true
+      alertmanagerSpec:
+        replicas: 1
       config:
         receivers:
         - name: discord
@@ -57,22 +59,8 @@ spec:
         enabled: true
 
     grafana:
-      grafana.ini:
-        date_formats:
-          default_week_start: monday
-
-      sidecar:
-        datasources:
-          enabled: true
-          label: grafana_datasource
-          labelValue: "1"
-        dashboards:
-          enabled: true
-          label: grafana_dashboard
-          labelValue: "1"
-          searchNamespace: observability
-          provider:
-            allowUiUpdates: true
+      enabled: false
+      forceDeployDashboards: true
 
     persistence:
       enabled: true
