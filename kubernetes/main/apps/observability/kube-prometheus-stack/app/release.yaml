@@ -30,6 +30,11 @@ spec:
 
     alertmanager:
       enabled: true
+      config:
+        receivers:
+        - name: discord
+          discord_configs:
+          - webhook_url: ${SECRET_DISCORD_WEBHOOK_URL}
 
     prometheus:
       prometheusSpec:
