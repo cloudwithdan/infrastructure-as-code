@@ -22,9 +22,10 @@ spec:
           contactPoints:
             - orgId: 1
               name: discord-alerting
-              type: discord
               receivers:
                 - name: discord
+                  type: discord
+                  uid: discord
                   discord_configs:
                   - webhook_url: ${SECRET_DISCORD_WEBHOOK_URL}
       templates.yaml:
