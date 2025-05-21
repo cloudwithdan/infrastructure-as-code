@@ -29,7 +29,7 @@ spec:
           k8s-app: kube-state-metrics
 
     alertmanager:
-      enabled: false
+      enabled: true
       alertmanagerSpec:
         replicas: 1
       config:
