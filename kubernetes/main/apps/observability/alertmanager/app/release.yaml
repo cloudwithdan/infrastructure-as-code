@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: alertmanager
+  namespace: observability
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: alertmanager
+      version: "1.19.0"
+      sourceRef:
+        kind: HelmRepository
+        name: alertmanager
+        namespace: observability
+      interval: 12h
+  values:
+    config:
+      route:
+        group_wait: 10s
+        group_interval: 5m
+        receiver: discord
+        repeat_interval: 3h
+      receivers:
+        - name: discord
+          discord_configs:
+          - webhook_url: ${SECRET_DISCORD_WEBHOOK_URL}

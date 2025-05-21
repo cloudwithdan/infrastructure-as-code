@@ -34,28 +34,6 @@ spec:
         selector:
           k8s-app: kube-state-metrics
 
-    alertmanager:
-      enabled: true
-      alertmanagerSpec:
-        replicas: 2
-        image:
-          registry: quay.io
-          repository: prometheus/alertmanager
-          tag: v0.28.0
-          sha: ""
-      config:
-        route:
-          group_by: ['namespace']
-          group_wait: 30s
-          group_interval: 5m
-          repeat_interval: 12h
-          receiver: 'null'
-          routes:
-            - receiver: 'discord'
-        receivers:
-        - name: discord
-          discord_configs:
-          - webhook_url: ${SECRET_DISCORD_WEBHOOK_URL}
     prometheus:
       prometheusSpec:
         podMonitorNamespaceSelector:
