@@ -14,6 +14,12 @@ spec:
         name: kube-prometheus-stack
         namespace: observability
       interval: 12h
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     kubeControllerManager:
       service:
