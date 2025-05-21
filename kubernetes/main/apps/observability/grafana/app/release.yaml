@@ -15,6 +15,38 @@ spec:
         namespace: observability
       interval: 12h
   values:
+  alerting:
+    contactpoints.yaml:
+      secret:
+        apiVersion: 1
+        contactPoints:
+          - orgId: 1
+            name: discord-alerting
+            receivers:
+              - name: discord
+                discord_configs:
+                - webhook_url: ${SECRET_DISCORD_WEBHOOK_URL}
+    templates.yaml:
+        apiVersion: 1
+        templates:
+          - orgId: 1
+            name:  basic-discord-template
+            template: |
+              {{ `
+              {{ define "alert_severity_prefix_emoji" }}
+                      {{- if ne .Status "firing" -}}
+                              :white_check_mark:
+                      {{- else if eq .Status "firing" -}}
+                              :warning:
+                      {{- end -}}
+              {{- end -}}
+
+              {{ define "basic-discord-template" -}}
+              {{- template "alert_severity_prefix_emoji" . -}}
+              [{{- .Status | toUpper -}}]: {{ .CommonLabels.alertname -}}
+              {{- end -}}
+              ` }}
+
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
