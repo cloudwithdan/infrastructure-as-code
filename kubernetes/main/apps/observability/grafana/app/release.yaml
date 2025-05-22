@@ -27,7 +27,7 @@ spec:
                   type: discord
                   disableResolveMessage: false
                   settings:
-                  - webhook_url: ${SECRET_DISCORD_WEBHOOK_URL}
+                    webhook_url: ${SECRET_DISCORD_WEBHOOK_URL}
       templates.yaml:
         apiVersion: 1
         templates:
