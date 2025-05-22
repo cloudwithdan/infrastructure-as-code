@@ -29,6 +29,16 @@ spec:
                   settings:
                     use_discord_username: false
                     url: ${SECRET_DISCORD_WEBHOOK_URL}
+                    message: '{{ template "discord.default.message" . }}'
+                    title: '{{ template "default.title" . }}'
+      policies.yaml:
+        apiVersion: 1
+        policies:
+          - orgId: 1
+            receiver: discord-alerting
+            group_wait: 0s
+            group_interval: 30s
+            repeat_interval: 3m
       templates.yaml:
         apiVersion: 1
         templates:
