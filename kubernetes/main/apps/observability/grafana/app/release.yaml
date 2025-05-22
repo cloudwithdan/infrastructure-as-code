@@ -23,7 +23,7 @@ spec:
             - orgId: 1
               name: discord-alerting
               receivers:
-                - uid: d1sc0rd
+                - uid: discord
                   type: discord
                   disableResolveMessage: false
                   settings:
