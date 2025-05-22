@@ -23,11 +23,12 @@ spec:
             - orgId: 1
               name: discord-alerting
               receivers:
-                - uid: discord
+                - uid: d1sc0rd
                   type: discord
                   disableResolveMessage: false
                   settings:
-                    webhook_url: ${SECRET_DISCORD_WEBHOOK_URL}
+                    use_discord_username: false
+                    url: ${SECRET_DISCORD_WEBHOOK_URL}
       templates.yaml:
         apiVersion: 1
         templates:
