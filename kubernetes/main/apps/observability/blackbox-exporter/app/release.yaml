@@ -12,7 +12,7 @@ spec:
       version: 9.0.1
       sourceRef:
         kind: HelmRepository
-        name: prometheus-community
+        name: prometheus-blackbox-exporter
         namespace: flux-system
   install:
     remediation:

@@ -31,6 +31,7 @@ spec:
                     url: ${SECRET_DISCORD_WEBHOOK_URL}
                     message: '{{ template "discord.default.message" . }}'
                     title: '{{ template "default.title" . }}'
+
       policies.yaml:
         apiVersion: 1
         policies:
@@ -39,6 +40,7 @@ spec:
             group_wait: 0s
             group_interval: 30s
             repeat_interval: 3m
+
       templates.yaml:
         apiVersion: 1
         templates:
@@ -47,18 +49,24 @@ spec:
             template: |
               {{ `
               {{ define "alert_severity_prefix_emoji" }}
-                      {{- if ne .Status "firing" -}}
-                              :white_check_mark:
-                      {{- else if eq .Status "firing" -}}
-                              :warning:
-                      {{- end -}}
+                  {{- if ne .Status "firing" -}}
+                      :white_check_mark:
+                  {{- else if eq .Status "firing" -}}
+                      :warning:
+                  {{- end -}}
               {{- end -}}
 
               {{ define "basic-discord-template" -}}
               {{- template "alert_severity_prefix_emoji" . -}}
               [{{- .Status | toUpper -}}]: {{ .CommonLabels.alertname -}}
               {{- end -}}
+
+              {{ define "discord.default.message" -}}
+                Alert triggered for {{ .CommonLabels.alertname }} with severity {{ .Status }}.
+                Details: {{ .Annotations.description }}
+              {{ end -}}
               ` }}
+
 
     dashboardProviders:
       dashboardproviders.yaml:
