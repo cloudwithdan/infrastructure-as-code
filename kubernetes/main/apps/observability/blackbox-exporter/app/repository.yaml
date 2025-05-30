@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: prometheus-blackbox-exporter
+  name: prometheus-community
   namespace: observability
 spec:
   interval: 12h
