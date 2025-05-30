@@ -181,6 +181,7 @@ spec:
       - grafana-clock-panel
       - grafana-piechart-panel
       - grafana-worldmap-panel
+      - grafana-polystat-panel
       - natel-discrete-panel
       - pr0ps-trackmap-panel
       - vonage-status-panel
