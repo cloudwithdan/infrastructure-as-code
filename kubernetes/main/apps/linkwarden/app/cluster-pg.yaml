@@ -1,0 +1,19 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: linkwarden-db
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.9
+  instances: 1
+
+  bootstrap:
+    initdb:
+      database: ${POSTGRES_DATABASE}
+      owner: ${POSTGRES_USERNAME}
+      secret:
+        name: pg-cluster-secret
+
+  storage:
+    storageClass: standard
+    size: 1Gi
