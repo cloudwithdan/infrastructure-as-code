@@ -15,6 +15,10 @@ spec:
       secret:
         name: pg-cluster-secret
 
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: pg-cluster-secret
+
   storage:
     storageClass: longhorn
     size: 1Gi
