@@ -27,6 +27,10 @@ spec:
           env:
             - name: DATABASE_URL
               value: "${DATABASE_URL}"
+            - name: NEXTAUTH_URL
+              value: "http://localhost:3000/api/v1/auth"
+            - name: NEXTAUTH_SECRET
+              value: ${NEXTAUTH_SECRET}
           volumeMounts:
             - mountPath: /pfs
               name: data
