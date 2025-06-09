@@ -16,5 +16,5 @@ spec:
         name: pg-cluster-secret
 
   storage:
-    storageClass: standard
+    storageClass: longhorn
     size: 1Gi
