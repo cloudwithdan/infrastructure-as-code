@@ -3,6 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: linkwarden-db
+  namespace: linkwarden
 spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:16.9
   instances: 1
