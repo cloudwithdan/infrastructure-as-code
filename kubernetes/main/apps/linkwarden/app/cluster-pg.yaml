@@ -14,9 +14,6 @@ spec:
       owner: ${POSTGRES_USERNAME}
       secret:
         name: pg-cluster-secret
-    bootstrap:
-      recovery:
-        source: linkwarden-pg-backup
 
   enableSuperuserAccess: true
   superuserSecret:
