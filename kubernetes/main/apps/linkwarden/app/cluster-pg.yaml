@@ -29,8 +29,8 @@ spec:
         destinationPath: 's3://talos-lj-backup/linkwarden-pg/'
         s3Credentials:
           accessKeyId:
-            name: s3-creds
+            name: postgresql-secret
             key: ${ACCESS_KEY_ID}
           secretAccessKey:
-            name: s3-creds
+            name: postgresql-secret
             key: ${SECRET_ACCESS_KEY}
