@@ -35,12 +35,11 @@ spec:
             - mountPath: /pfs
               name: data
           resources:
-            limits:
-              cpu: 500m
-              memory: 1000Mi
             requests:
-              cpu: 100m
+              cpu: 250m
               memory: 256Mi
+            limits:
+              memory: 4Gi
           livenessProbe:
             httpGet:
               path: /
