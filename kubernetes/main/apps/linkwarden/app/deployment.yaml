@@ -27,10 +27,33 @@ spec:
           env:
             - name: DATABASE_URL
               value: "${DATABASE_URL}"
+            - name: NEXT_PUBLIC_AUTHENTIK_ENABLED
+              value: "true"
             - name: NEXTAUTH_URL
-              value: "http://localhost:3000/api/v1/auth"
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: NEXTAUTH_URL
             - name: NEXTAUTH_SECRET
-              value: ${NEXTAUTH_SECRET}
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: NEXTAUTH_SECRET
+            - name: AUTHENTIK_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: AUTHENTIK_ISSUER
+            - name: AUTHENTIK_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: AUTHENTIK_CLIENT_ID
+            - name: AUTHENTIK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: AUTHENTIK_CLIENT_SECRET
           volumeMounts:
             - mountPath: /pfs
               name: data
