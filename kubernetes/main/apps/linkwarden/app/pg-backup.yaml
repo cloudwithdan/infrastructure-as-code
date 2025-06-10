@@ -3,6 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: linkwarden-db-backup
+  namespace: linkwarden
 spec:
   schedule: "59 23 * * *"
   suspend: false
