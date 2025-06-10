@@ -7,6 +7,7 @@ resources:
   - ./secret.sops.yaml
   - ./pg-secret.sops.yaml
   - ./cluster-pg.yaml
+  - ./pg-backup.yaml
   - ./deployment.yaml
   - ./service.yaml
   - ./ingress.yaml

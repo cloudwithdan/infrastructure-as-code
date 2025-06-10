@@ -1,0 +1,12 @@
+
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: linkwarden-db-backup
+spec:
+  schedule: "59 23 * * *"
+  suspend: false
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: linkwarden-db
