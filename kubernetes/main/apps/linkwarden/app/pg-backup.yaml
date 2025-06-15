@@ -5,7 +5,7 @@ metadata:
   name: linkwarden-db-backup
   namespace: linkwarden
 spec:
-  schedule: "59 23 * * *"
+  schedule: "0 0 * * *"
   suspend: false
   immediate: true
   backupOwnerReference: self
