@@ -34,3 +34,7 @@ spec:
         secretAccessKey:
           name: s3-creds
           key: SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+        maxParallel: 4
+        encryption: AES256
