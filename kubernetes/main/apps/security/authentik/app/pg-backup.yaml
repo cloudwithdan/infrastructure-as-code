@@ -24,7 +24,7 @@ spec:
             - name: POSTGRES_DB
               value: "${AUTHENTIK_POSTGRES_DATABASE}"
             - name: POSTGRES_HOST
-              value: "authentik-postgres.authentik.svc.cluster.local"
+              value: "authentik-postgresql.authentik.svc.cluster.local"
             - name: POSTGRES_PASSWORD
               value: "${AUTHENTIK_POSTGRES_PASSWORD}"
             - name: POSTGRES_PORT
