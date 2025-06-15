@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: authentik-pg-backup
+  namespace: authentik
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: postgres-backup
+              image: th0th/postgres-s3-backup:0.3
+              env:
+              - name: AWS_ACCESS_KEY_ID
+                value: "${AWS_ACCESS_KEY_ID}"
+              - name: AWS_REGION
+                value: "${AWS_REGION}"
+              - name: AWS_S3_ENDPOINT
+                value: "${AWS_S3_ENDPOINT}"
+              - name: AWS_SECRET_ACCESS_KEY
+                value: "${AWS_SECRET_ACCESS_KEY}"
+              - name: POSTGRES_DB
+                value: "${AUTHENTIK_POSTGRES_DATABASE}"
+              - name: POSTGRES_HOST
+                value: "authentik-postgres.authentik.svc.cluster.local"
+              - name: POSTGRES_PASSWORD
+                value: "${AUTHENTIK_POSTGRES_PASSWORD}"
+              - name: POSTGRES_PORT
+                value: "5432"
+              - name: POSTGRES_USER
+                value: "${AUTHENTIK_POSTGRES_USER}"
+              - name: POSTGRES_VERSION
+                value: "16"
+  schedule: "0 0 * * *" # this runs on 00:00 every day. see https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#schedule-syntax
