@@ -18,16 +18,6 @@ pages:
                 - url: https://selfh.st/rss/
                   title: selfh.st
                   limit: 4
-
-            # - type: twitch-channels
-            #   channels:
-            #     - theprimeagen
-            #     - j_blow
-            #     - piratesoftware
-            #     - cohhcarnage
-            #     - christitustech
-            #     - EJ_SA
-
         - size: full
           widgets:
             - type: monitor
@@ -59,12 +49,18 @@ pages:
                   icon: di:mealie
             - type: videos
               channels:
-                # Linus Tech Tips
-                - UCXuqSBlHAE6Xw-yeJA0Tunw
                 # Mental Outlaw
                 - UC7YOGHUfC1Tb6E4pudI9STA
-                # Formula 1
-                - UCB_qr75-ydFVKSF9Dmo6izg
+                # SomeOrdinaryGamers
+                - UCtMVHI3AJD4Qk4hcbZnI9ZQ
+                # Fireship
+                - UCsBjURrPoezykLs9EqgamOA
+                # Low Level
+                - UC6biysICWOJ-C3P4Tyeggzg
+                # ThePrimeTime
+                - UCUyeluBRhGPCW4rPe_UvBZQ
+                # Linus Tech Tips
+                - UCXuqSBlHAE6Xw-yeJA0Tunw
                 # Veritasium
                 - UCHnyfMqiRRG1u-2MsSQLbXA
             - type: group
@@ -75,6 +71,7 @@ pages:
                 - type: reddit
                   subreddit: selfhosted
                   show-thumbnails: true
+                - type: hacker-news
         - size: small
           widgets:
             - type: weather
