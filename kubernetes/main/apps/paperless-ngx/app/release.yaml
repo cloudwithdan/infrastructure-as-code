@@ -26,11 +26,7 @@ spec:
   #     retries: 3
   values:
     env:
-      - name: TZ
-        valueFrom:
-          secretKeyRef:
-            name: paperless-ngx-secret
-            key: tz
+      TZ: "${TZ}"
     postgresql:
       enabled: false
       auth:
