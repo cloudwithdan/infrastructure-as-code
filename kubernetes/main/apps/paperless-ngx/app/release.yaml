@@ -36,3 +36,32 @@ spec:
       primary:
         persistence:
           enabled: false
+    persistence:
+      # data:
+      #   enabled: false
+      #   retain: true
+      #   mountPath: /usr/src/paperless/data
+      #   storageClass: "longhorn"
+      #   accessMode: ReadWriteOnce
+      #   size: 1Gi
+      media:
+        enabled: false
+        retain: true
+        mountPath: /usr/src/paperless/media
+        storageClass: "longhorn"
+        accessMode: ReadWriteOnce
+        size: 4Gi
+      export:
+        enabled: true
+        retain: true
+        mountPath: /usr/src/paperless/export
+        storageClass: "longhorn"
+        accessMode: ReadWriteOnce
+        size: 1Gi
+      consume:
+        enabled: true
+        retain: true
+        mountPath: /usr/src/paperless/consume
+        storageClass: "longhorn"
+        accessMode: ReadWriteOnce
+        size: 4Gi
