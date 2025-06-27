@@ -31,14 +31,13 @@ spec:
       PAPERLESS_ADMIN_PASSWORD: "${PAPERLESS_ADMIN_PASSWORD}"
       PAPERLESS_URL: "https://docs.${SECRET_EXTERNAL_DOMAIN}"
     postgresql:
-      enabled: false
+      enabled: true
       auth:
-        database: "${POSTGRES_DATABASE}"
-        username: "${POSTGRES_USERNAME}"
         password: "${POSTGRES_PASSWORD}"
       primary:
         persistence:
-          enabled: false
+          size: 4Gi
+          storageClass: longhorn
     persistence:
       # data:
       #   enabled: false
