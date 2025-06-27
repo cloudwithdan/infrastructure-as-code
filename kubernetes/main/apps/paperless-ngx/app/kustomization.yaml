@@ -5,5 +5,4 @@ resources:
   - ./namespace.yaml
   - ./repository.yaml
   - ./secret.sops.yaml
-  - ./cluster-pg.yaml
   - ./release.yaml
