@@ -29,6 +29,7 @@ spec:
       TZ: Europe/Berlin
       PAPERLESS_ADMIN_USER: "${PAPERLESS_ADMIN_USER}"
       PAPERLESS_ADMIN_PASSWORD: "${PAPERLESS_ADMIN_PASSWORD}"
+      PAPERLESS_URL: "https://docs.${SECRET_EXTERNAL_DOMAIN}"
     postgresql:
       enabled: false
       auth:
