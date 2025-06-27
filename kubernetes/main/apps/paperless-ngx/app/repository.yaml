@@ -6,6 +6,5 @@ metadata:
   name: paperless-ngx
   namespace: paperless-ngx
 spec:
-  type: oci
   interval: 1h
-  url: oci://ghcr.io/gabe565/charts/paperless-ngx
+  url: https://charts.gabe565.com
