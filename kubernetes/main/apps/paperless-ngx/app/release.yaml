@@ -26,7 +26,7 @@ spec:
   #     retries: 3
   values:
     env:
-      TZ: Erope/Berlin
+      TZ: Europe/Berlin
       PAPERLESS_ADMIN_USER: "${PAPERLESS_ADMIN_USER}"
       PAPERLESS_ADMIN_PASSWORD: "${PAPERLESS_ADMIN_PASSWORD}"
     postgresql:
