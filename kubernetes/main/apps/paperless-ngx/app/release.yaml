@@ -33,7 +33,7 @@ spec:
     postgresql:
       enabled: true
       auth:
-        password: "${PAPERLESS_POSTGRES_PASSWORD}"
+        postgresPassword: "${PAPERLESS_POSTGRES_PASSWORD}"
       primary:
         persistence:
           size: 4Gi
