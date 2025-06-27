@@ -1,0 +1,42 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app paperless-ngx
+  namespace: paperless-ngx
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: paperless-ngx
+      version: 0.24.1
+      sourceRef:
+        kind: HelmRepository
+        name: paperless-ngx
+        namespace: paperless-ngx
+  # install:
+  #   crds: CreateReplace
+  #   remediation:
+  #     retries: 3
+  # upgrade:
+  #   cleanupOnFail: true
+  #   crds: CreateReplace
+  #   remediation:
+  #     strategy: rollback
+  #     retries: 3
+  values:
+    env:
+      - name: TZ
+        valueFrom:
+          secretKeyRef:
+            name: paperless-ngx-secret
+            key: tz
+    postgresql:
+      enabled: false
+      auth:
+        database: "${POSTGRES_DATABASE}"
+        username: "${POSTGRES_USERNAME}"
+        password: "${POSTGRES_PASSWORD}"
+      primary:
+        persistence:
+          enabled: false
