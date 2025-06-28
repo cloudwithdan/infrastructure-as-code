@@ -53,7 +53,7 @@ spec:
       #   accessMode: ReadWriteOnce
       #   size: 1Gi
       media:
-        enabled: false
+        enabled: true
         retain: true
         mountPath: /usr/src/paperless/media
         storageClass: "longhorn"
