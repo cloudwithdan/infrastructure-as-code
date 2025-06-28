@@ -30,7 +30,7 @@ spec:
       PAPERLESS_ADMIN_USER: "${PAPERLESS_ADMIN_USER}"
       PAPERLESS_ADMIN_PASSWORD: "${PAPERLESS_ADMIN_PASSWORD}"
       PAPERLESS_URL: "https://docs.${SECRET_EXTERNAL_DOMAIN}"
-      PAPERLESS_DBHOST: paperless-ngx-postgresql-0
+      PAPERLESS_DBHOST: paperless-ngx-postgresql.paperless-ngx.svc.cluster.local
       PAPERLESS_DBENGINE: postgresql
       PAPERLESS_DBNAME: "${PAPERLESS_POSTGRES_DATABASE}"
       PAPERLESS_DBUSER: "${PAPERLESS_POSTGRES_USER}"
