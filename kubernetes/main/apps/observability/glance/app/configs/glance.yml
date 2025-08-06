@@ -12,6 +12,12 @@ pages:
               collapse-after: 3
               cache: 12h
               feeds:
+                - url: https://docs.projectbluefin.io/blog/rss.xml
+                  title: Bluefin Blog
+                  limit: 4
+                - url: https://docs.projectbluefin.io/changelogs/rss.xml
+                  title: Bluefin Changelogs
+                  limit: 4
                 - url: https://archlinux.org/feeds/news/
                   title: Arch Linux
                   limit: 4
@@ -35,6 +41,10 @@ pages:
                   url: https://home.${SECRET_EXTERNAL_DOMAIN}
                   check-url: http://glance.glance.svc.cluster.local:8080
                   icon: di:glance
+                - title: Linkwarden
+                  url: https://bookmark.${SECRET_EXTERNAL_DOMAIN}
+                  check-url: http://linkwarden.linkwarden.svc.cluster.local:80
+                  icon: di:linkwarden
                 - title: Uptime Kuma
                   url: https://status.${SECRET_EXTERNAL_DOMAIN}
                   check-url: http://uptime-kuma.uptime-kuma.svc.cluster.local:3001
@@ -94,6 +104,11 @@ pages:
                 - symbol: SPY
                   name: S&P 500
             - type: repository
+              repository: bluefin/bluefin
+              pull-requests-limit: 5
+              issues-limit: 3
+              commits-limit: 3
+            - type: repository
               repository: dnikoloski/infrastructure-as-code
               pull-requests-limit: 5
               issues-limit: 3
@@ -104,5 +119,7 @@ pages:
               # read-only token from your Github account settings and use it here to increase the limit.
               # token: ...
               repositories:
+                - bluefin/bluefin
+                - bluefin/packges
                 - glanceapp/glance
                 - siderolabs/talos
