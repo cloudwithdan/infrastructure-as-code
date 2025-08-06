@@ -72,8 +72,8 @@ pages:
                 - UCHnyfMqiRRG1u-2MsSQLbXA
             - type: group
               widgets:
-                - type: devops
-                  subreddit: technology
+                - type: reddit
+                  subreddit: devops
                   show-thumbnails: true
                 - type: reddit
                   subreddit: technology
