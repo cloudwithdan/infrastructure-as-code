@@ -44,7 +44,7 @@ pages:
                 - title: Linkwarden
                   url: https://bookmark.${SECRET_EXTERNAL_DOMAIN}
                   check-url: http://linkwarden.linkwarden.svc.cluster.local:80
-                  icon: cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/linkwarden.png
+                  icon: auto-invert https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/linkwarden.png
                 - title: Uptime Kuma
                   url: https://status.${SECRET_EXTERNAL_DOMAIN}
                   check-url: http://uptime-kuma.uptime-kuma.svc.cluster.local:3001
