@@ -18,11 +18,8 @@ pages:
                 - url: https://docs.projectbluefin.io/changelogs/rss.xml
                   title: Bluefin Changelogs
                   limit: 4
-                - url: https://archlinux.org/feeds/news/
-                  title: Arch Linux
-                  limit: 4
-                - url: https://selfh.st/rss/
-                  title: selfh.st
+                - url: http://sreweekly.com/feed/
+                  title: SRE Weekly
                   limit: 4
         - size: full
           widgets:
@@ -75,6 +72,9 @@ pages:
                 - UCHnyfMqiRRG1u-2MsSQLbXA
             - type: group
               widgets:
+                - type: devops
+                  subreddit: technology
+                  show-thumbnails: true
                 - type: reddit
                   subreddit: technology
                   show-thumbnails: true
@@ -101,8 +101,10 @@ pages:
               # {SYMBOL} will be substituded with the symbol for each market
               symbol-link-template: https://www.tradingview.com/symbols/{SYMBOL}/news
               markets:
-                - symbol: SPY
-                  name: S&P 500
+                - symbol: VUAA
+                  name: Vanguard S&P 500 UCITS ETF
+                - symbol: VWCG
+                  name: Vanguard FTSE Developed Europe
             - type: repository
               repository: ublue-os/bluefin
               pull-requests-limit: 5
@@ -120,6 +122,5 @@ pages:
               # token: ...
               repositories:
                 - ublue-os/bluefin
-                - ublue-os/packges
                 - glanceapp/glance
                 - siderolabs/talos
