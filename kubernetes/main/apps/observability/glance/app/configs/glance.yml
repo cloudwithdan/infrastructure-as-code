@@ -99,12 +99,13 @@ pages:
             - type: markets
               # The link to go to when clicking on the symbol in the UI,
               # {SYMBOL} will be substituded with the symbol for each market
-              symbol-link-template: https://www.tradingview.com/chart/?symbol={SYMBOL}
               markets:
                 - symbol: VUAA.DE
                   name: Vanguard S&P 500 UCITS ETF
+                  chart-link: https://www.tradingview.com/chart/?symbol=VUAA
                 - symbol: VWCG.DE
                   name: Vanguard FTSE Developed Europe
+                  chart-link: https://www.tradingview.com/chart/?symbol=VWCG
             - type: repository
               repository: ublue-os/bluefin
               pull-requests-limit: 5
