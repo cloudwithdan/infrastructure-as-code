@@ -99,7 +99,7 @@ pages:
             - type: markets
               # The link to go to when clicking on the symbol in the UI,
               # {SYMBOL} will be substituded with the symbol for each market
-              symbol-link-template: https://www.tradingview.com/symbols/{SYMBOL}/news
+              symbol-link-template: https://www.tradingview.com/symbols/{SYMBOL}
               markets:
                 - symbol: VUAA
                   name: Vanguard S&P 500 UCITS ETF
