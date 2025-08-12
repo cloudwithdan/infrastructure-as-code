@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - ./cloudnative-pg/ks.yaml
   - ./external-secrets/ks.yaml
-  - ./vault/ks.yaml
   - ./weave-gitops/ks.yaml
   - ./longhorn/ks.yaml
   - ./reloader/ks.yaml
