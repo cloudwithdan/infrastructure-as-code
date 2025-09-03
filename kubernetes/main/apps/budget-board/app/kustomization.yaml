@@ -5,6 +5,7 @@ resources:
   - ./namespace.yaml
   - ./secret.sops.yaml
   - ./pg-secret.sops.yaml
+  - ./cluster-pg.yaml
   - ./configmap.yaml
   - ./client_deployment.yaml
   - ./server_deployment.yaml
