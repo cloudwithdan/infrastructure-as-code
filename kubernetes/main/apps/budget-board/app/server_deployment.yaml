@@ -60,6 +60,9 @@ spec:
               value: Debug
             - name: Logging__LogLevel__Microsoft
               value: Warning
+            - name: POSTGRES_PORT
+              value: "5432"
+              value: Warning
           # Persist ASP.NET Data Protection keys so cookies/tokens survive pod restarts
           volumeMounts:
             - name: dp-keys
