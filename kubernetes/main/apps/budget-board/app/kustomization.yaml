@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./secret.sops.yaml
+  - ./s3-creds.sops.yaml
   - ./pg-secret.sops.yaml
   - ./cluster-pg.yaml
   - ./client_deployment.yaml
