@@ -40,9 +40,9 @@ spec:
         - name: server
           image: ghcr.io/teelur/budget-board/server:release
           imagePullPolicy: IfNotPresent
-          envFrom:
-            - configMapRef:
-                name: server-config
+          ports:
+            - name: http
+              containerPort: 8080
           env:
             # Bind Kestrel to the declared containerPort
             - name: ASPNETCORE_URLS
