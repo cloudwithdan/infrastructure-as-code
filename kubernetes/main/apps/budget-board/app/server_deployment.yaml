@@ -60,9 +60,15 @@ spec:
             - name: POSTGRES_HOST
               value: "budget-board-db-rw.budget-board.svc.cluster.local"
             - name: POSTGRES_USER
-              value: "${POSTGRES_USER}"
+              valueFrom:
+                secretKeyRef:
+                  name: budget-board-secret
+                  key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
-              value: "${POSTGRES_PASSWORD}"
+              valueFrom:
+                secretKeyRef:
+                  name: budget-board-secret
+                  key: POSTGRES_PASSWORD
             - name: CLIENT_URL
               value: "http://budget-board-client.budget-board.svc.cluster.local:6253"
             - name: AUTO_UPDATE_DB
