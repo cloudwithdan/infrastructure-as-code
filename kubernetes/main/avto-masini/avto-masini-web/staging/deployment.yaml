@@ -24,7 +24,7 @@ spec:
             requests:
               memory: "64Mi"
               cpu: "250m"
-          image: ghcr.io/avto-masini/avto-masini-web:edec79c
+          image: ghcr.io/avto-masini/avto-masini-web:9ff0c4c
           imagePullPolicy: Always
           ports:
             - name: staging-svc
