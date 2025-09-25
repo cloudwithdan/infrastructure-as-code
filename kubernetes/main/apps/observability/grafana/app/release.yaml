@@ -15,57 +15,57 @@ spec:
         namespace: observability
       interval: 12h
   values:
-    alerting:
-      contactpoints.yaml:
-        secret:
-          apiVersion: 1
-          contactPoints:
-            - orgId: 1
-              name: discord-alerting
-              receivers:
-                - uid: discord
-                  type: discord
-                  disableResolveMessage: false
-                  settings:
-                    use_discord_username: false
-                    url: ${SECRET_DISCORD_WEBHOOK_URL}
-                    message: '{{ template "discord.default.message" . }}'
-                    title: '{{ template "default.title" . }}'
+    # alerting:
+    #   contactpoints.yaml:
+    #     secret:
+    #       apiVersion: 1
+    #       contactPoints:
+    #         - orgId: 1
+    #           name: discord-alerting
+    #           receivers:
+    #             - uid: discord
+    #               type: discord
+    #               disableResolveMessage: false
+    #               settings:
+    #                 use_discord_username: false
+    #                 url: ${SECRET_DISCORD_WEBHOOK_URL}
+    #                 message: '{{ template "discord.default.message" . }}'
+    #                 title: '{{ template "default.title" . }}'
 
-      policies.yaml:
-        apiVersion: 1
-        policies:
-          - orgId: 1
-            receiver: discord-alerting
-            group_wait: 0s
-            group_interval: 30s
-            repeat_interval: 3m
+    #   policies.yaml:
+    #     apiVersion: 1
+    #     policies:
+    #       - orgId: 1
+    #         receiver: discord-alerting
+    #         group_wait: 0s
+    #         group_interval: 30s
+    #         repeat_interval: 3m
 
-      templates.yaml:
-        apiVersion: 1
-        templates:
-          - orgId: 1
-            name:  basic-discord-template
-            template: |
-              {{ `
-              {{ define "alert_severity_prefix_emoji" }}
-                  {{- if ne .Status "firing" -}}
-                      :white_check_mark:
-                  {{- else if eq .Status "firing" -}}
-                      :warning:
-                  {{- end -}}
-              {{- end -}}
+    #   templates.yaml:
+    #     apiVersion: 1
+    #     templates:
+    #       - orgId: 1
+    #         name:  basic-discord-template
+    #         template: |
+    #           {{ `
+    #           {{ define "alert_severity_prefix_emoji" }}
+    #               {{- if ne .Status "firing" -}}
+    #                   :white_check_mark:
+    #               {{- else if eq .Status "firing" -}}
+    #                   :warning:
+    #               {{- end -}}
+    #           {{- end -}}
 
-              {{ define "basic-discord-template" -}}
-              {{- template "alert_severity_prefix_emoji" . -}}
-              [{{- .Status | toUpper -}}]: {{ .CommonLabels.alertname -}}
-              {{- end -}}
+    #           {{ define "basic-discord-template" -}}
+    #           {{- template "alert_severity_prefix_emoji" . -}}
+    #           [{{- .Status | toUpper -}}]: {{ .CommonLabels.alertname -}}
+    #           {{- end -}}
 
-              {{ define "discord.default.message" -}}
-                Alert triggered for {{ .CommonLabels.alertname }} with severity {{ .Status }}.
-                Details: {{ .Annotations.description }}
-              {{ end -}}
-              ` }}
+    #           {{ define "discord.default.message" -}}
+    #             Alert triggered for {{ .CommonLabels.alertname }} with severity {{ .Status }}.
+    #             Details: {{ .Annotations.description }}
+    #           {{ end -}}
+    #           ` }}
 
 
     dashboardProviders:
