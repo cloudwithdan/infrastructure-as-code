@@ -32,11 +32,9 @@ spec:
 
     extraEnvVars:
       FTLCONF_webserver_port: "80"
-      FTLCONF_misc_etc_dnsmasq_d: "true"
       FTLCONF_dns_dnssec: "true"
       FTLCONF_dns_interface: "eth0"
       FTLCONF_dns_listeningMode: "all"
-      FTLCONF_dns_upstreams: "10.0.10.1,9.9.9.9"
 
     serviceWeb:
       loadBalancerIP: 10.0.10.200
@@ -50,4 +48,4 @@ spec:
         metallb.universe.tf/allow-shared-ip: pihole-svc
       type: LoadBalancer
 
-    replicaCount: 2
+    replicaCount: 1
