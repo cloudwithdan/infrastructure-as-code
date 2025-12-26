@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: pihole-exporter
-          image: ekofr/pihole-exporter:v0.4.0
+          image: ekofr/pihole-exporter:v1.2.0
           ports:
             - containerPort: 9617
           env:
