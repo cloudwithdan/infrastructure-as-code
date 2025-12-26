@@ -15,20 +15,21 @@ spec:
         name: mojo2600
         namespace: pihole-system
   values:
-    DNS1:
-      10.0.10.1
-    DNS2:
-      9.9.9.9
+    DNS1: "10.0.10.1"
+    DNS2: "9.9.9.9"
+
     persistentVolumeClaim:
       enabled: true
       accessModes:
         - ReadWriteOnce
       size: "1Gi"
       storageClass: "longhorn"
+
     ingress:
       enabled: false
       hosts:
         - "pihole.home"
+
     extraEnvVars:
       FTLCONF_webserver_port: "80"
       FTLCONF_misc_etc_dnsmasq_d: "true"
@@ -36,14 +37,17 @@ spec:
       FTLCONF_dns_interface: "eth0"
       FTLCONF_dns_listeningMode: "all"
       FTLCONF_dns_upstreams: "10.0.10.1,9.9.9.9"
+
     serviceWeb:
       loadBalancerIP: 10.0.10.200
       annotations:
         metallb.universe.tf/allow-shared-ip: pihole-svc
       type: LoadBalancer
+
     serviceDns:
       loadBalancerIP: 10.0.10.200
       annotations:
         metallb.universe.tf/allow-shared-ip: pihole-svc
       type: LoadBalancer
+
     replicaCount: 2
