@@ -30,18 +30,12 @@ spec:
       hosts:
         - "pihole.home"
     extraEnvVars:
-          - name: FTLCONF_webserver_port
-            value: "80"
-          - name: FTLCONF_misc_etc_dnsmasq_d
-            value: "true"
-          - name: FTLCONF_dns_dnssec
-            value: "true"
-          - name: FTLCONF_dns_interface
-            value: "eth0"
-          - name: FTLCONF_dns_listeningMode
-            value: "all"
-          - name: FTLCONF_dns_upstreams
-            value: "10.0.10.1,9.9.9.9"
+      FTLCONF_webserver_port: "80"
+      FTLCONF_misc_etc_dnsmasq_d: "true"
+      FTLCONF_dns_dnssec: "true"
+      FTLCONF_dns_interface: "eth0"
+      FTLCONF_dns_listeningMode: "all"
+      FTLCONF_dns_upstreams: "10.0.10.1,9.9.9.9"
     serviceWeb:
       loadBalancerIP: 10.0.10.200
       annotations:
