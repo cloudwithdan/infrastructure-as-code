@@ -7,3 +7,4 @@ resources:
   - ./weave-gitops/ks.yaml
   - ./longhorn/ks.yaml
   - ./reloader/ks.yaml
+  - ./gitlab-runner/ks.yaml
