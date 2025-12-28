@@ -15,5 +15,5 @@ spec:
         namespace: gitlab-runner
       interval: 12h
   values:
-      gitlabUrl: "https://gitlab.com/"
-      runnerRegistration: "${GITLAB_RUNNER_REGISTRATION_TOKEN}"
+    gitlabUrl: "https://gitlab.com/"
+    runnerRegistration: "${GITLAB_RUNNER_REGISTRATION_TOKEN}"
