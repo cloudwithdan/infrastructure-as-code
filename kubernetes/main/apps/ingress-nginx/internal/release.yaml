@@ -31,15 +31,15 @@ spec:
           metallb.universe.tf/ip-allocated-from-pool: pool
         externalTrafficPolicy: Cluster
       ingressClassResource:
-        name: interal
+        name: internal
         default: true
-        controllerValue: k8s.io/interal
+        controllerValue: k8s.io/internal
       admissionWebhooks:
         objectSelector:
           matchExpressions:
             - key: ingress-class
               operator: In
-              values: ["interal"]
+              values: ["internal"]
       config:
         annotations-risk-level: "Critical"
         use-forwarded-headers: "true"
