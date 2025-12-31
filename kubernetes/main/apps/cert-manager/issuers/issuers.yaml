@@ -15,7 +15,7 @@ spec:
           cloudflare:
             apiTokenSecretRef:
               name: cert-manager-secret
-              key: token
+              key: api-token
         selector:
           dnsZones:
             - "${SECRET_EXTERNAL_DOMAIN}"
