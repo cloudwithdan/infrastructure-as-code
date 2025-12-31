@@ -29,7 +29,7 @@ spec:
       type: LoadBalancer
       port: 53
       annotations:
-        metallb.universe.tf/allow-shared-ip: ingress-nginx-external
+        metallb.universe.tf/allow-shared-ip: lb-k8s-gateway
         metallb.universe.tf/ip-allocated-from-pool: pool
       externalTrafficPolicy: Cluster
     watchedResources: ["Ingress", "Service"]
