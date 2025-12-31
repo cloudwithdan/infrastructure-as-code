@@ -2,7 +2,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "${SECRET_EXTERNAL_DOMAIN/./-}-production"
+  name: "${SECRET_EXTERNAL_DOMAIN/./-}-production-tls"
   namespace: ingress-nginx
 spec:
   secretName: "${SECRET_EXTERNAL_DOMAIN/./-}-production-tls"
