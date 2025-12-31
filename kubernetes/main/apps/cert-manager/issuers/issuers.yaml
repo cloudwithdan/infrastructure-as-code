@@ -18,6 +18,5 @@ spec:
               key: token
         selector:
           dnsZones:
-            - "dnsk.xyz"
             - "${SECRET_EXTERNAL_DOMAIN}"
             - "${SECRET_PROD_DOMAIN}"
