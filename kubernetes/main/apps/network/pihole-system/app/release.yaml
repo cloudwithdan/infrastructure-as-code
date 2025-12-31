@@ -26,9 +26,10 @@ spec:
       storageClass: "longhorn"
 
     ingress:
-      enabled: false
+      enabled: true
+      ingressClassName: internal
       hosts:
-        - "pihole.home"
+        - "pihole.${SECRET_INTERNAL_DOMAIN}"
 
     extraEnvVars:
       FTLCONF_webserver_port: "80"
