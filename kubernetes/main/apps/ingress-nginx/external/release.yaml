@@ -31,8 +31,8 @@ spec:
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "external.${SECRET_EXTERNAL_DOMAIN}"
-          metallb.universe.tf/allow-shared-ip: ingress-nginx-external
-          metallb.universe.tf/ip-allocated-from-pool: pool
+          metallb.io/allow-shared-ip: ingress-nginx-external
+          metallb.io/ip-allocated-from-pool: pool
         externalTrafficPolicy: Cluster
       ingressClassResource:
         name: external

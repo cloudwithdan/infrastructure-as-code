@@ -27,8 +27,8 @@ spec:
       allowSnippetAnnotations: true
       service:
         annotations:
-          metallb.universe.tf/allow-shared-ip: ingress-nginx-internal
-          metallb.universe.tf/ip-allocated-from-pool: pool
+          metallb.io/allow-shared-ip: ingress-nginx-internal
+          metallb.io/ip-allocated-from-pool: pool
         externalTrafficPolicy: Cluster
       ingressClassResource:
         name: internal

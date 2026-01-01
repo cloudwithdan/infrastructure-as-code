@@ -40,13 +40,13 @@ spec:
     serviceWeb:
       loadBalancerIP: 10.0.10.200
       annotations:
-        metallb.universe.tf/allow-shared-ip: pihole-svc
+        metallb.io/allow-shared-ip: pihole-svc
       type: LoadBalancer
 
     serviceDns:
       loadBalancerIP: 10.0.10.200
       annotations:
-        metallb.universe.tf/allow-shared-ip: pihole-svc
+        metallb.io/allow-shared-ip: pihole-svc
       type: LoadBalancer
 
     replicaCount: 1
