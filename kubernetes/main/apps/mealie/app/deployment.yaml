@@ -25,7 +25,7 @@ spec:
               value: "false"
             - name: BASE_URL
               value: "https://recept.${SECRET_EXTERNAL_DOMAIN}"
-          image: ghcr.io/mealie-recipes/mealie:v3.3.0
+          image: ghcr.io/mealie-recipes/mealie:v3.9.2
           ports:
             - containerPort: 9000
               name: http
