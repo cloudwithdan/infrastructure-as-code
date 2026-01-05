@@ -197,6 +197,8 @@ pages:
                   {{ end }}
                 </ul>
                 {{ end }}
+        - size: small
+          widgets:
             - type: custom-api
               cache: 30m
               headers:
@@ -230,6 +232,8 @@ pages:
                 </ul>
               title: Bookmarks
               url: http://linkwarden.linkwarden.svc.cluster.local:80/api/v1/links
+        - size: small
+          widgets:
             - type: custom-api
               title: Beszel Metrics
               url: http://beszel-hub.beszel.svc.cluster.local:8090/api/collections/systems/records
