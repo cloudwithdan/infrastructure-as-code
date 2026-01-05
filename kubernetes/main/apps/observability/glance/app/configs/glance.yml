@@ -136,7 +136,7 @@ pages:
           widgets:
             - type: custom-api
               title: Beszel Metrics
-              url: http://beszel-hub.beszel.svc.local.cluster:8090/api/collections/systems/records
+              url: http://beszel-hub.beszel.svc.cluster.local:8090/api/collections/systems/records
               method: GET
               options:
                 redirect-url: "" # You must use "" and http:// or https://
