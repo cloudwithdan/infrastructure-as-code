@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: linkwarden
-          image: ghcr.io/linkwarden/linkwarden:latest
+          image: ghcr.io/linkwarden/linkwarden:v2.13.5
           ports:
             - containerPort: 3000
               name: http
