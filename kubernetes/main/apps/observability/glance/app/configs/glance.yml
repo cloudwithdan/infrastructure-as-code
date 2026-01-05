@@ -99,7 +99,7 @@ pages:
               service: pihole-v6
               url: http://10.0.10.200
               username: admin
-              password: ${PIHOLE_API_KEY}
+              password: ${PIHOLE_PASSWORD}
             - type: markets
               # The link to go to when clicking on the symbol in the UI,
               # {SYMBOL} will be substituded with the symbol for each market
@@ -205,7 +205,7 @@ pages:
                 Authorization: Bearer ${LINKWARDEN_API_KEY}
               method: GET                                                                                     
               template: |
-                <ul class="list list-gap-10 collapsible-container" data-collapse-after="<LINKS_TO_BE_VISIBLE>">
+                <ul class="list list-gap-10 collapsible-container" data-collapse-after="7">
                   {{ range .JSON.Array "response" }}
                     <li>
                       {{ $title := .String "name" }}
