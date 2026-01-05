@@ -232,7 +232,7 @@ pages:
                 </ul>
               title: Bookmarks
               url: http://linkwarden.linkwarden.svc.cluster.local:80/api/v1/links
-        - size: small
+        - size: full
           widgets:
             - type: custom-api
               title: Beszel Metrics
