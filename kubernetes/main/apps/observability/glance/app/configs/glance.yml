@@ -98,7 +98,8 @@ pages:
             - type: dns-stats
               service: pihole
               url: http://10.0.10.200
-              token: ${PIHOLE_API_KEY}
+              username: admin
+              password: ${PIHOLE_API_KEY}
             - type: markets
               # The link to go to when clicking on the symbol in the UI,
               # {SYMBOL} will be substituded with the symbol for each market
