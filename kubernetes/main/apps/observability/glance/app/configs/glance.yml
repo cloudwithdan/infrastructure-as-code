@@ -1,3 +1,9 @@
+theme:
+  background-color: 240 27 11
+  contrast-multiplier: 1.5
+  primary-color: 321 100 71
+  positive-color: 165 78 51
+  negative-color: 360 100 71
 pages:
     - name: Home
       # Optionally, if you only have a single page you can hide the desktop navigation for a cleaner look
@@ -12,11 +18,8 @@ pages:
               collapse-after: 3
               cache: 12h
               feeds:
-                - url: https://docs.projectbluefin.io/blog/rss.xml
-                  title: Bluefin Blog
-                  limit: 4
-                - url: https://docs.projectbluefin.io/changelogs/rss.xml
-                  title: Bluefin Changelogs
+                - url: https://archlinux.org/feeds/news/
+                  title: Arch Linux News
                   limit: 4
                 - url: http://sreweekly.com/feed/
                   title: SRE Weekly
@@ -31,8 +34,8 @@ pages:
                   check-url: http://authentik-server.authentik.svc.cluster.local:80
                   icon: di:authentik
                 - title: Pihole
-                  url: http://10.0.10.200/admin/login.php
-                  check-url: http://pihole-web.pihole-system.svc.cluster.local:80/admin/login.php
+                  url: http://10.0.10.200/admin/
+                  check-url: http://pihole-web.pihole-system.svc.cluster.local:80/admin/
                   icon: di:pi-hole
                 - title: Glance
                   url: https://home.${SECRET_EXTERNAL_DOMAIN}
@@ -125,3 +128,95 @@ pages:
                 - ublue-os/bluefin
                 - glanceapp/glance
                 - siderolabs/talos
+    - name: Homelab
+      # Optionally, if you only have a single page you can hide the desktop navigation for a cleaner look
+      # hide-desktop-navigation: true
+      columns:
+        - size: full
+          widgets:
+            - type: custom-api
+              title: Beszel Metrics
+              url: http://beszel-hub.beszel.svc.local.cluster:8090/api/collections/systems/records
+              method: GET
+              options:
+                redirect-url: "" # You must use "" and http:// or https://
+              headers:
+                Authorization: Bearer ${BESZEL_TOKEN}
+                Accept: application/json
+              template: |
+                {{ $redirect := .Options.StringOr "redirect-url" "" }}
+                {{ $newTab := .Options.BoolOr "in-new-tab" false }}
+                {{ $hideKernel := .Options.BoolOr "hide-kernel" false }}
+                {{ $hideUptime := .Options.BoolOr "hide-uptime" false }}
+                {{ $hideCPUInfo := .Options.BoolOr "hide-cpu-info" false }}
+                {{ $hideIP := .Options.BoolOr "hide-ip" false }}
+                {{ $collapsible := .Options.BoolOr "collapsible" false }}
+                {{ $items := .JSON.Array "items" }}
+                {{ range $items }}
+                  {{ $info := .Get "info" }}
+                  {{ $name := .String "name" }}
+                  {{ $link := "" }}
+                  {{ if ne $redirect "" }}
+                    {{ $link = printf "%s/system/%s" $redirect $name }}
+                  {{ end }}
+                  <div style="font-size: 1.15em;">
+                    {{ if eq (.String "status") "up" }}
+                      <span class="status-dot color-positive">●</span>
+                    {{ else }}
+                      <span class="status-dot color-negative">●</span>
+                    {{ end }}
+                    {{ if ne $redirect "" }}
+                      <a class="color-highlight text-truncate" href="{{ printf "%s/system/%s" $redirect $name | safeURL }}" {{ if $newTab }}target="_blank" rel="noopener"{{ end }}>
+                        {{ $name }}{{ if not $hideIP }} ({{ .String "host" }}){{ end }}
+                      </a>
+                    {{ else }}
+                      <span class="color-highlight text-truncate">
+                        {{ $name }}{{ if not $hideIP }} ({{ .String "host" }}){{ end }}
+                      </span>
+                    {{ end }}
+                  </div>
+                  {{ if $collapsible }}
+                    <details class="margin-top-5">
+                      <summary class="size-h5 color-subtle" style="cursor: pointer;">Metrics</summary>
+                      <div class="margin-top-5">
+                        {{ if not $hideKernel }}
+                          <p style="font-size: 1em;">Kernel: {{ $info.String "k" }}</p>
+                        {{ end }}
+                        {{ if not $hideUptime }}
+                          {{ $uptimeSec := $info.Float "u" }}
+                          {{ if ge $uptimeSec 86400.0 }}
+                            <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000011574) }}d</p>
+                          {{ else }}
+                            <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000277778) }}h</p>
+                          {{ end }}
+                        {{ end }}
+                        {{ if not $hideCPUInfo }}
+                          <p style="font-size: 1em;">CPU: {{ replaceAll "CPU " "" ($info.String "m") }}</p>
+                        {{ end }}
+                        <p style="font-size: 1em; margin-top: 0.5em;">📊 Cpu: {{ $info.Float "cpu" }}%</p>
+                        <p style="font-size: 1em;">🧠 Memory: {{ $info.Float "mp" }}%</p>
+                        <p style="font-size: 1em;">💾 Disk: {{ $info.Float "dp" }}%</p>
+                      </div>
+                    </details>
+                  {{ else }}
+                    <div class="margin-top-5">
+                      {{ if not $hideKernel }}
+                        <p style="font-size: 1em;">Kernel: {{ $info.String "k" }}</p>
+                      {{ end }}
+                      {{ if not $hideUptime }}
+                        {{ $uptimeSec := $info.Float "u" }}
+                        {{ if ge $uptimeSec 86400.0 }}
+                          <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000011574) }}d</p>
+                        {{ else }}
+                          <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000277778) }}h</p>
+                        {{ end }}
+                      {{ end }}
+                      {{ if not $hideCPUInfo }}
+                        <p style="font-size: 1em;">CPU: {{ replaceAll "CPU " "" ($info.String "m") }}</p>
+                      {{ end }}
+                      <p style="font-size: 1em; margin-top: 0.5em;">📊 Cpu: {{ $info.Float "cpu" }}%</p>
+                      <p style="font-size: 1em;">🧠 Memory: {{ $info.Float "mp" }}%</p>
+                      <p style="font-size: 1em;">💾 Disk: {{ $info.Float "dp" }}%</p>
+                    </div>
+                  {{ end }}
+                {{ end }}
