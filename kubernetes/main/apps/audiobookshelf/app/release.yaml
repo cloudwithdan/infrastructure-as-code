@@ -22,6 +22,31 @@ spec:
     remediation:
       retries: 3
   values:
+    persistence:
+      config:
+        enabled: true
+        size: 1Gi
+        storageClass: "longhorn"
+      metadata:
+        enabled: true
+        size: 10Gi
+        storageClass: "longhorn"
+
+    persistentVolumeClaims:
+      - name: audiobooks
+        mountPath: /audiobooks
+        readOnly: false
+
+    volumes:
+      - name: audiobooks
+        persistentVolumeClaim:
+          claimName: audiobooks-pvc
+
+    volumeMounts:
+      - name: audiobooks
+        mountPath: "/audiobooks"
+        readOnly: false 
+
     ingress:
       enabled: true
       annotations:
