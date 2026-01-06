@@ -46,6 +46,8 @@ spec:
       containers:
       - name: filebrowser
         image: filebrowser/filebrowser
+        args:
+          - --baseurl=/filebrowser
         ports:
         - containerPort: 80
         volumeMounts:
@@ -83,8 +85,10 @@ kind: Ingress
 metadata:
   name: audiobooks-filebrowser-ingress
   namespace: audiobookshelf
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
-  ingressClassName: internal
+  ingressClassName: external
   rules:
     - host: "books.cloudwithdan.com"
       http:
