@@ -47,7 +47,7 @@ spec:
       - name: filebrowser
         image: filebrowser/filebrowser
         args:
-          - --baseurl=/filebrowser
+          - --baseURL=/filebrowser
         ports:
         - containerPort: 80
         volumeMounts:
