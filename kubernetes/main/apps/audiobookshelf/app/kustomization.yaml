@@ -6,3 +6,4 @@ resources:
   - ./repository.yaml
   - ./audiobooks-pvc.yaml
   - ./release.yaml
+  - ./audiobookshelf-filebrowser.yaml
