@@ -62,5 +62,5 @@ spec:
       defaults:
         interval: 1m
       targets:
-        - { name: &name avto-masini.mk, module: icmp, url: *name }
-        - { name: &name cloudwithdan.com, module: http_2xx, url: *name }
+        - { name: &name avto-masini.mk, module: icmp, url: https://avto-masini.mk }
+        - { name: &name cloudwithdan.com, module: http_2xx, url: https://cloudwithdan.com }
