@@ -15,7 +15,14 @@ spec:
         name: mojo2600
         namespace: pihole-system
   values:
-    DNS1: "10.0.1.1"
+    DNS1: "127.0.0.1#5053"
+
+    doh:
+      enabled: true
+      pullPolicy: Always
+      envVars: {
+        DOH_UPSTREAM: "https://1.1.1.1/dns-query"
+      }
 
     persistentVolumeClaim:
       enabled: true
