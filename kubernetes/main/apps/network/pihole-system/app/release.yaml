@@ -15,8 +15,7 @@ spec:
         name: mojo2600
         namespace: pihole-system
   values:
-    DNS1: "10.0.10.1"
-    DNS2: "9.9.9.9"
+    DNS1: "10.0.1.1"
 
     persistentVolumeClaim:
       enabled: true
