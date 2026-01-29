@@ -76,8 +76,8 @@ spec:
       create: true
       name: "external-dns-pihole"
     ingressClassFilters:
-      - nginx-internal
-    sources: ["crd", "ingress"]
+      - internal
+    sources: ["service", "ingress"]
     serviceMonitor:
       enabled: true
     securityContext:
