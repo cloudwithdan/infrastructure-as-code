@@ -55,7 +55,7 @@ spec:
   chart:
     spec:
       chart: external-dns
-      version: 1.15.0
+      version: 1.20.0
       sourceRef:
         kind: HelmRepository
         name: external-dns
@@ -65,11 +65,11 @@ spec:
     provider: pihole
     policy: upsert-only
     txtOwnerId: "homelab"
-    pihole:
-      server: http://pihole-web.pihole-system.svc.cluster.local
     env:
       - name: EXTERNAL_DNS_PIHOLE_PASSWORD
         value: ${PIHOLE_PASSWORD}
+      - name: EXTERNAL_DNS_PIHOLE_SERVER
+        value: http://pihole-web.pihole-system.svc.cluster.local
     extraArgs:
       - --pihole-api-version=6
     serviceAccount:
