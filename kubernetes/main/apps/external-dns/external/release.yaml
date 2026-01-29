@@ -64,7 +64,7 @@ spec:
     fullnameOverride: *app
     provider: pihole
     policy: upsert-only
-    txtOwnerId: "homelab"
+    registry: noop
     env:
       - name: EXTERNAL_DNS_PIHOLE_PASSWORD
         value: ${PIHOLE_PASSWORD}
@@ -72,11 +72,10 @@ spec:
         value: http://pihole-web.pihole-system.svc.cluster.local
     extraArgs:
       - --pihole-api-version=6
+      - --ingress-class=internal
     serviceAccount:
       create: true
       name: "external-dns-pihole"
-    ingressClassFilters:
-      - internal
     sources: ["service", "ingress"]
     serviceMonitor:
       enabled: true
