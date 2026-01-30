@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: blog-ingress
+  namespace: blog
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "cloudwithdan.com"
+spec:
+  ingressClassName: external
+  rules:
+    - host: cloudwithdan.com
+      http:
+        paths:
+          - path: /posts
+            pathType: Prefix
+            backend:
+              service:
+                name: blog
+                port:
+                  name: blog
