@@ -19,9 +19,13 @@ spec:
 
     doh:
       enabled: true
-      pullPolicy: Always
+      repository: "cloudflare/cloudflared"
+      # -- cloudflared docker tag is hardcoded because cloudflared proxy-dns command will be removed in future versions
+      tag: 2026.1.2
+      # -- Pull policy
+      pullPolicy: IfNotPresent
       envVars: {
-        DOH_UPSTREAM: "https://1.1.1.1/dns-query"
+        DOH_UPSTREAM: "https://dns.quad9.net/dns-query"
       }
 
     persistentVolumeClaim:
