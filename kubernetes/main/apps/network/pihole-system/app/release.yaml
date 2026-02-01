@@ -19,14 +19,11 @@ spec:
 
     doh:
       enabled: true
-      repository: "cloudflare/cloudflared"
-      # -- cloudflared docker tag is hardcoded because cloudflared proxy-dns command will be removed in future versions
-      tag: 2026.1.2
-      # -- Pull policy
+      repository: "crazymax/cloudflared"
+      tag: latest
       pullPolicy: IfNotPresent
-      envVars: {
-        DOH_UPSTREAM: "https://dns.quad9.net/dns-query"
-      }
+      envVars:
+        TUNNEL_DNS_UPSTREAM: "https://9.9.9.9/dns-query"
 
     persistentVolumeClaim:
       enabled: true
