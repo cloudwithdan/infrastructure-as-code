@@ -15,14 +15,15 @@ spec:
         name: mojo2600
         namespace: pihole-system
   values:
-    DNS1: "dnscrypt-proxy-dns-udp#53"
-    DNS2: ""
+    DNS1: "127.0.0.1#5053"
 
     doh:
-      enabled: false
-
-    podDnsConfig:
-      enabled: false
+      enabled: true
+      repository: "crazymax/cloudflared"
+      tag: latest
+      pullPolicy: IfNotPresent
+      envVars:
+        TUNNEL_DNS_UPSTREAM: "https://9.9.9.9/dns-query,https://1.1.1.1/dns-query"
 
     persistentVolumeClaim:
       enabled: true
@@ -35,7 +36,7 @@ spec:
       enabled: true
       ingressClassName: internal
       hosts:
-        - "pihole.${SECRET_EXTERNAL_DOMAIN}"
+        - "pihole.${SECRET_INTERNAL_DOMAIN}"
 
     extraEnvVars:
       FTLCONF_webserver_port: "80"
