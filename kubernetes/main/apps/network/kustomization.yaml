@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./metallb-system/ks.yaml
   - ./pihole-system/ks.yaml
+  - ./k8tz/ks.yaml
