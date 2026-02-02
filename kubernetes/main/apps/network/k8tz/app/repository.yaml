@@ -4,7 +4,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: k8tz
-  namespace: flux-system
+  namespace: k8tz
 spec:
   interval: 1h
   url: https://k8tz.github.io/k8tz/

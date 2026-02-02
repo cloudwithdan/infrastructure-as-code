@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: k8tz
-        namespace: flux-system
+        namespace: k8tz
   interval: 30m
   values:
     namespace: network
