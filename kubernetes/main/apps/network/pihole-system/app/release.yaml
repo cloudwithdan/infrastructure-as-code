@@ -25,6 +25,13 @@ spec:
       envVars:
         TUNNEL_DNS_UPSTREAM: "https://9.9.9.9/dns-query"
 
+    podDnsConfig:
+      enabled: true
+      policy: "None"
+      nameservers:
+        - 9.9.9.9
+        - 127.0.0.1
+
     persistentVolumeClaim:
       enabled: true
       accessModes:
