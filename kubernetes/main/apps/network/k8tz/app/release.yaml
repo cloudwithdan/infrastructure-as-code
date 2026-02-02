@@ -16,8 +16,8 @@ spec:
         namespace: k8tz
   interval: 30m
   values:
-    namespace: network
-    replicaCount: 3
+    namespace: k8tz
+    replicaCount: 2
     timezone: "${TIMEZONE}"
     cronJobTimeZone: true
     webhook:
