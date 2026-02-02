@@ -15,7 +15,7 @@ spec:
         name: mojo2600
         namespace: pihole-system
   values:
-    DNS1: "dnscrypt-proxy#5053"
+    DNS1: "dnscrypt-proxy-dns-udp#5353"
 
     doh:
       enabled: false
