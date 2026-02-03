@@ -23,7 +23,7 @@ spec:
       tag: latest
       pullPolicy: IfNotPresent
       envVars:
-        TUNNEL_DNS_UPSTREAM: "https://dns9.quad9.net/dns-query"
+        TUNNEL_DNS_UPSTREAM: "https://9.9.9.9/dns-query,https://1.1.1.1/dns-query"
 
     persistentVolumeClaim:
       enabled: true
