@@ -186,7 +186,7 @@ spec:
       - pr0ps-trackmap-panel
       - vonage-status-panel
       - volkovlabs-rss-datasource
-
+      - marcusolsson-dynamictext-panel
     # configuration to make dashboard configmaps discoverable
     # sidecar:
     #   datasources:
