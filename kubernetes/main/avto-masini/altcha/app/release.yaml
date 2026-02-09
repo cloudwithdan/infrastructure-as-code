@@ -13,19 +13,7 @@ spec:
         kind: HelmRepository
         name: altcha-org
         namespace: flux-system
-  # install:
-  #   crds: CreateReplace
-  #   remediation:
-  #     retries: 3
-  # upgrade:
-  #   cleanupOnFail: true
-  #   crds: CreateReplace
-  #   remediation:
-  #     strategy: rollback
-  #     retries: 3
-  values:
-    service:
-      type: ClusterIP
+
     ingress:
       enabled: true
       className: avto-masini
@@ -35,4 +23,8 @@ spec:
         - host: altcha.${SECRET_PROD_DOMAIN}
           paths:
             - path: /
-              pathType: Prefix
+              pathType: ImplementationSpecific
+      tls:
+        - secretName: "${SECRET_PROD_DOMAIN/./-}-production-tls"
+          hosts:
+            - altcha.${SECRET_PROD_DOMAIN}
