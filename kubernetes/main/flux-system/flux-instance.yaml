@@ -1,0 +1,48 @@
+---
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  namespace: flux-system
+spec:
+  distribution:
+    version: "2.x"
+    registry: "ghcr.io/fluxcd"
+  components:
+    - source-controller
+    - kustomize-controller
+    - helm-controller
+    - notification-controller
+    - image-reflector-controller
+    - image-automation-controller
+  cluster:
+    type: kubernetes
+    multitenant: false
+    networkPolicy: true
+    domain: "cluster.local"
+  sync:
+    kind: GitRepository
+    url: "https://github.com/dnikoloski/infrastructure-as-code.git"
+    ref: "refs/heads/main"
+    path: "kubernetes/main/flux-system"
+    pullSecret: "flux-system"
+    interval: 1m
+  kustomize:
+    patches:
+      - target:
+          kind: Kustomization
+          name: flux-system
+        patch: |
+          - op: add
+            path: /spec/decryption
+            value:
+              provider: sops
+              secretRef:
+                name: sops-age
+          - op: add
+            path: /spec/postBuild
+            value:
+              substituteFrom:
+                - kind: Secret
+                  name: cluster-secrets
+                  optional: false
