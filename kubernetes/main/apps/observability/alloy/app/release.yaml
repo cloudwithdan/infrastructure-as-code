@@ -265,9 +265,9 @@ spec:
           }
 
           loki.source.file "audit" {
-            targets      = local.file_match.k8s_audit.targets
-            forward_to   = [loki.process.audit.receiver]
-            start_at_end = true
+            targets       = local.file_match.k8s_audit.targets
+            forward_to    = [loki.process.audit.receiver]
+            tail_from_end = true
           }
 
           loki.process "audit" {
