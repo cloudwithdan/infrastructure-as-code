@@ -271,7 +271,7 @@ spec:
           }
 
           loki.process "audit" {
-            forward_to = [loki.write.local.receiver]
+            forward_to = [loki.write.loki.receiver]
 
             stage.static_labels {
               values = {
@@ -294,64 +294,39 @@ spec:
               }
             }
 
-            # Keep only final outcome (drops RequestReceived/ResponseStarted duplicates)
-            stage.match {
-              selector = "{job=\"k8s-audit\"}"
-              stages {
-                stage.match {
-                  expression = "stage != \"ResponseComplete\""
-                  action     = "drop"
-                }
-              }
+            // Keep only final outcome (drops RequestReceived/ResponseStarted duplicates)
+            stage.drop {
+              source              = "stage"
+              expression          = "^(RequestReceived|ResponseStarted)$"
+              drop_counter_reason = "audit_non_final_stage"
             }
 
-            # Drop leader-election / coordination noise
-            stage.match {
-              selector = "{job=\"k8s-audit\"}"
-              stages {
-                stage.match {
-                  expression = "resource == \"leases\" && code =~ \"^2\""
-                  action     = "drop"
-                }
-              }
+            // Drop leader-election / coordination noise (successful lease operations)
+            stage.drop {
+              source              = "resource"
+              expression          = "^leases$"
+              drop_counter_reason = "audit_leases"
             }
 
-            # Drop successful WATCH (biggest remaining volume)
-            stage.match {
-              selector = "{job=\"k8s-audit\"}"
-              stages {
-                stage.match {
-                  expression = "verb == \"watch\" && code =~ \"^2\""
-                  action     = "drop"
-                }
-              }
+            // Drop successful WATCH (biggest remaining volume)
+            stage.drop {
+              source              = "verb"
+              expression          = "^watch$"
+              drop_counter_reason = "audit_watch"
             }
 
-            # Drop successful reads
-            stage.match {
-              selector = "{job=\"k8s-audit\"}"
-              stages {
-                stage.match {
-                  expression = "(verb == \"get\" || verb == \"list\" || verb == \"watch\") && code =~ \"^2\""
-                  action     = "drop"
-                }
-              }
+            // Drop successful reads (get/list)
+            stage.drop {
+              source              = "verb"
+              expression          = "^(get|list)$"
+              drop_counter_reason = "audit_reads"
             }
 
-            # LOW-cardinality labels only (prevents stream/cardinality explosion)
+            // LOW-cardinality labels only (prevents stream/cardinality explosion)
             stage.labels {
               values = {
                 verb = "verb",
                 code = "code",
-              }
-            }
-          }
-
-          loki.write "local" {
-            endpoint {
-              url = "http://loki-gateway.observability.svc.cluster.local/loki/api/v1/push"
-              headers = {
-                "X-Scope-OrgID" = "1",
               }
             }
           }
