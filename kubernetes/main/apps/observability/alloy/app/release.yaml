@@ -1,0 +1,363 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: alloy
+  namespace: observability
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: alloy
+      version: "1.4.0"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: observability
+      interval: 12h
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controller:
+      type: daemonset
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+      tolerations:
+        - operator: Exists
+      volumes:
+        extra:
+          - name: auditlog
+            hostPath:
+              path: /var/log/audit/kube
+              type: DirectoryOrCreate
+    alloy:
+      configMap:
+        create: true
+        name: alloy-config
+        key: config.alloy
+        content: |-
+          // ====================
+          // DISCOVERY
+          // ====================
+          discovery.kubernetes "pod" {
+            role = "pod"
+          }
+
+          // ====================
+          // RELABELING
+          // ====================
+          discovery.relabel "pod_logs" {
+            targets = discovery.kubernetes.pod.targets
+
+            rule {
+              source_labels = ["__meta_kubernetes_namespace"]
+              action = "replace"
+              target_label = "namespace"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_name"]
+              action = "replace"
+              target_label = "pod"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_container_name"]
+              action = "replace"
+              target_label = "container"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+              action = "replace"
+              target_label = "app"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_container_name"]
+              action = "replace"
+              target_label = "job"
+              separator = "/"
+              replacement = "$1"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_uid", "__meta_kubernetes_pod_container_name"]
+              action = "replace"
+              target_label = "__path__"
+              separator = "/"
+              replacement = "/var/log/pods/*$1/*.log"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_container_id"]
+              action = "replace"
+              target_label = "container_runtime"
+              regex = "^(\\S+):\\/\\/.+$"
+              replacement = "$1"
+            }
+          }
+
+          // ====================
+          // LOG SOURCE
+          // ====================
+          loki.source.kubernetes "pod_logs" {
+            targets    = discovery.relabel.pod_logs.output
+            forward_to = [loki.process.pod_logs.receiver]
+          }
+
+          // ====================
+          // LOG PROCESSING + DROP FILTERS
+          // ====================
+          loki.process "pod_logs" {
+            // --- Static labels ---
+            stage.static_labels {
+              values = {
+                cluster = "gke-bragg-dwh-prod",
+              }
+            }
+
+            // === AIRFLOW METADATA NOISE ===
+            stage.match {
+              selector = "{namespace=\"airflow\"}"
+
+              stage.drop {
+                expression  = ".*computeMetadata/v1.*"
+                drop_counter_reason = "airflow_metadata"
+              }
+              stage.drop {
+                expression  = ".*metadata\\.go:\\d+\\].*"
+                drop_counter_reason = "airflow_metadata_go"
+              }
+            }
+
+            // === KUBERNETES SYSTEM ===
+            stage.match {
+              selector = "{namespace=\"kube-system\"}"
+
+              stage.drop {
+                expression  = ".*(healthz|readyz|livez|kube-probe).*"
+                drop_counter_reason = "kube_health_probes"
+              }
+              stage.drop {
+                expression  = ".*level=debug.*"
+                drop_counter_reason = "kube_debug"
+              }
+            }
+
+            // === INGRESS ACCESS LOGS (keep errors only) ===
+            stage.match {
+              selector = "{namespace=\"ingress-nginx\"}"
+
+              stage.drop {
+                expression  = ".*\" (200|204|301|302|304) \\d+.*"
+                drop_counter_reason = "ingress_2xx_3xx"
+              }
+            }
+
+            // === EXTERNAL-DNS ===
+            stage.match {
+              selector = "{namespace=\"external-dns\"}"
+
+              stage.drop {
+                expression  = ".*All records are already up to date.*"
+                drop_counter_reason = "externaldns_noop"
+              }
+            }
+
+            // === FLUX SYSTEM ===
+            stage.match {
+              selector = "{namespace=\"flux-system\"}"
+
+              stage.drop {
+                expression  = ".*no changes since last reconcil.*"
+                drop_counter_reason = "flux_no_changes"
+              }
+              stage.drop {
+                expression  = ".*level=debug.*"
+                drop_counter_reason = "flux_debug"
+              }
+            }
+
+            // === GATEKEEPER ===
+            stage.match {
+              selector = "{namespace=\"gatekeeper-system\"}"
+
+              stage.drop {
+                expression  = ".*level=debug.*"
+                drop_counter_reason = "gatekeeper_debug"
+              }
+            }
+
+            // === OBSERVABILITY STACK ===
+            stage.match {
+              selector = "{namespace=\"observability\"}"
+
+              stage.drop {
+                expression  = ".*level=debug.*"
+                drop_counter_reason = "observability_debug"
+              }
+              stage.drop {
+                expression  = ".*msg=\"successful series query\".*"
+                drop_counter_reason = "observability_series_query"
+              }
+            }
+
+            // === GITLAB RUNNER ===
+            stage.match {
+              selector = "{namespace=\"gitlab-runner-shared\"}"
+
+              stage.drop {
+                expression  = ".*Downloading artifacts.*"
+                drop_counter_reason = "gitlab_artifacts"
+              }
+              stage.drop {
+                expression  = ".*Uploading artifacts.*"
+                drop_counter_reason = "gitlab_artifacts"
+              }
+            }
+
+            // === GLOBAL: HEALTH CHECKS (all namespaces) ===
+            stage.drop {
+              expression  = ".*GET /(health|ready|readyz|healthz|livez|metrics).*\" (200|204).*"
+              drop_counter_reason = "global_health_probes"
+            }
+            stage.drop {
+              expression  = ".*kube-probe/.*"
+              drop_counter_reason = "global_kube_probe"
+            }
+
+            // === GLOBAL: DEBUG LOGS ===
+            stage.drop {
+              expression  = ".*\"level\":\"debug\".*"
+              drop_counter_reason = "global_debug_json"
+            }
+            stage.drop {
+              expression  = ".*level=debug.*"
+              drop_counter_reason = "global_debug_logfmt"
+            }
+
+            // --- Forward to Loki ---
+            forward_to = [loki.write.loki.receiver]
+          }
+
+          // ====================
+          // LOKI DESTINATION
+          // ====================
+          loki.write "loki" {
+            endpoint {
+              url = "http://loki-gateway.observability.svc.cluster.local/loki/api/v1/push"
+            }
+          }
+
+          // ====================
+          // K8s Audit Logs
+          // ====================
+
+          local.file_match "k8s_audit" {
+            path_targets = [{
+              __address__ = "localhost",
+              __path__    = "/var/log/audit/kube/kube-apiserver*.log",
+            }]
+          }
+
+          loki.source.file "audit" {
+            targets      = local.file_match.k8s_audit.targets
+            forward_to   = [loki.process.audit.receiver]
+            start_at_end = true
+          }
+
+          loki.process "audit" {
+            forward_to = [loki.write.local.receiver]
+
+            stage.static_labels {
+              values = {
+                job    = "k8s-audit",
+                stream = "k8s-audit",
+                source = "apiserver-audit",
+                node   = constants.hostname,
+              }
+            }
+
+            stage.json {
+              expressions = {
+                stage     = "stage",
+                verb      = "verb",
+                user      = "user.username",
+                namespace = "objectRef.namespace",
+                resource  = "objectRef.resource",
+                code      = "responseStatus.code",
+                uri       = "requestURI",
+              }
+            }
+
+            # Keep only final outcome (drops RequestReceived/ResponseStarted duplicates)
+            stage.match {
+              selector = "{job=\"k8s-audit\"}"
+              stages {
+                stage.match {
+                  expression = "stage != \"ResponseComplete\""
+                  action     = "drop"
+                }
+              }
+            }
+
+            # Drop leader-election / coordination noise
+            stage.match {
+              selector = "{job=\"k8s-audit\"}"
+              stages {
+                stage.match {
+                  expression = "resource == \"leases\" && code =~ \"^2\""
+                  action     = "drop"
+                }
+              }
+            }
+
+            # Drop successful WATCH (biggest remaining volume)
+            stage.match {
+              selector = "{job=\"k8s-audit\"}"
+              stages {
+                stage.match {
+                  expression = "verb == \"watch\" && code =~ \"^2\""
+                  action     = "drop"
+                }
+              }
+            }
+
+            # Drop successful reads
+            stage.match {
+              selector = "{job=\"k8s-audit\"}"
+              stages {
+                stage.match {
+                  expression = "(verb == \"get\" || verb == \"list\" || verb == \"watch\") && code =~ \"^2\""
+                  action     = "drop"
+                }
+              }
+            }
+
+            # LOW-cardinality labels only (prevents stream/cardinality explosion)
+            stage.labels {
+              values = {
+                verb = "verb",
+                code = "code",
+              }
+            }
+          }
+
+          loki.write "local" {
+            endpoint {
+              url = "http://loki-gateway.observability.svc.cluster.local/loki/api/v1/push"
+              headers = {
+                "X-Scope-OrgID" = "1",
+              }
+            }
+          }
+
+      mounts:
+        extra:
+          - name: auditlog
+            mountPath: /var/log/audit/kube
+            readOnly: true

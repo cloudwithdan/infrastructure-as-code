@@ -1,0 +1,132 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: loki
+  namespace: observability
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: loki
+      version: "6.40.0"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: observability
+      interval: 12h
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    chunksCache:
+      enabled: false
+
+    deploymentMode: SingleBinary
+
+    loki:
+      # ingestion limits (prevents dropped audit logs during bursts)
+      limitsConfig:
+        ingestion_rate_mb: 16
+        ingestion_burst_size_mb: 32
+
+      # guaranteed config (this is what ends up in the loki ConfigMap)
+      structuredConfig:
+        auth_enabled: false
+
+        common:
+          replication_factor: 1
+          path_prefix: /var/loki
+          storage:
+            s3:
+              endpoint: loki-minio.observability.svc:9000
+              bucketnames: loki-chunks
+              s3forcepathstyle: true
+              insecure: true
+
+        schema_config:
+          configs:
+            - from: "2024-04-01"
+              store: tsdb
+              object_store: s3
+              schema: v13
+              index:
+                prefix: loki_index_
+                period: 24h
+
+        storage_config:
+          tsdb_shipper:
+            active_index_directory: /var/loki/index
+            cache_location: /var/loki/cache
+
+        ruler:
+          storage:
+            type: s3
+            s3:
+              bucketnames: loki-ruler
+          wal:
+            dir: /var/loki/ruler-wal
+
+    minio:
+      enabled: true
+
+      extraEnvFrom:
+        - secretRef:
+            name: loki-minio-root
+
+      persistence:
+        enabled: true
+        storageClass: longhorn-retain
+        size: 20Gi
+
+      buckets:
+        - name: loki-chunks
+        - name: loki-ruler
+        - name: loki-admin
+
+    singleBinary:
+      replicas: 1
+      resources:
+        requests:
+          cpu: 200m
+          memory: 1Gi
+        limits:
+          cpu: 1000m
+          memory: 2Gi
+
+    sidecar:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
+
+    # Zero out replica counts of other modes (important!)
+    backend:
+      replicas: 0
+    read:
+      replicas: 0
+    write:
+      replicas: 0
+    ingester:
+      replicas: 0
+    querier:
+      replicas: 0
+    queryFrontend:
+      replicas: 0
+    queryScheduler:
+      replicas: 0
+    distributor:
+      replicas: 0
+    compactor:
+      replicas: 0
+    indexGateway:
+      replicas: 0
+    bloomCompactor:
+      replicas: 0
+    bloomGateway:
+      replicas: 0
