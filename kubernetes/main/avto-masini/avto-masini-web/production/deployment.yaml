@@ -26,7 +26,7 @@ spec:
             requests:
               memory: "64Mi"
               cpu: "250m"
-          image: ghcr.io/avto-masini/avto-masini-web:v2.0.8
+          image: ghcr.io/avto-masini/avto-masini-web:v2.0.10
           imagePullPolicy: Always
           ports:
             - name: prod-svc
