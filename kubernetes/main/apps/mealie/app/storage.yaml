@@ -4,7 +4,6 @@ metadata:
   name: mealie
   namespace: mealie
 spec:
-  reclaimPolicy: Retain
   accessModes:
     - ReadWriteOnce
   resources:
