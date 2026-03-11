@@ -4,7 +4,6 @@ metadata:
   name: linkwarden
   namespace: linkwarden
 spec:
-  reclaimPolicy: Retain
   accessModes:
     - ReadWriteOnce
   resources:
