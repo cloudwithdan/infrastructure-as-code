@@ -1,11 +1,10 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: kestra-db-creds
+  name: kestra-s3-creds
   namespace: kestra
 stringData:
-  datasource.yml: ENC[AES256_GCM,data:lG9eup+hWm0cHeTaDH2h7AwVaU3hRIEP+9/cViWlZH/uWCekmFow515QE5ick2MJJoO5537ZvfHdUdwcKDBsAy/GvMBzVO9Jwj1xElWywi5AyjHJM3RAopKVUqdFk/bvr4ZhNnVxV9+1GSGoWdvcFhIFuonhTq7hN6tkCDUubjKx4tlr4seu9/8FcyBAZzQifXeR63Ryr7XeDrRb81gK7BQbzNDFKMEmQwTKDBps/2WOYxfVF/7pQsCJOE/4gl8=,iv:x9vQX6z8Jup9+6pwsUuONmhiODAwwRD7/43MWfbL1qE=,tag:o57poBKCjxnvnWg7/ilzhA==,type:str]
-  storage.yml: ENC[AES256_GCM,data:NXhjMXpK+zUSd9XrpZ79Wx+8Gj/4/XTi0BKH2faZtk/+lIx38+OnOB+C5IYMCkgXA3bPz5mtu0KFiUkx4sURNQXZx3GrnfEv3iarRpxQ00mCoCelDcDQORuqquVOKO73SsD4MyBL4axXR9jHRCt8n6KMv4cw61+vXKPV+iSmHlU8IYmwUBIEb4Z52qPoWlbjBuu2DW3bQ6Eh04PXCEH1Q11Ma9ARjv9WSkc4U5f/EXoqsNYX+WDWE/to9wYLcq8ojG+pfge55wwmTfndhQ0jXxyxDfgQLKaNVLxSR+cD9tdrQmMa22cPOQOuYUY3SRdHizDJWUoNfg==,iv:9/Fq6bP/86j3O48bZfbWpITcMzjKAlRuEtknC2ko450=,tag:mMxqbqP9DafJUmYdZsIjCA==,type:str]
+  s3.yml: ENC[AES256_GCM,data:n0eHL6TsAFMrjJXK2yCDq9YWvTxnRzKO4VT4PkdziZRWKt0b0Ol+mxox1JpzykNpKb41wkimGa+0rmyCg9TWHumvOBYTgunZN26RaDxDfbBDg1kdUFrg4dj9nwTSNJGMzpvBmiqa3FFKs2QOXeav//K7K+Lq8/IljT9VSkndOFNBw+EijqEuzOaulfT63HXVMyNlLxbq1j1o9q3MJE6wg3ea5VCe1eqvF023YHxvQOxRBMpP2U6/Yl7bQfAcllmm1Q==,iv:6MJUJp9PKuxLQRA7XoA9nroPr5Gvqa1DiUeIjjDWDc8=,tag:dVzJgKi0d23G5+/DP1sSdA==,type:str]
 sops:
   age:
     - recipient: age13swsp40tstrqluer6arm5skldvg5ucw4t390a87qcdzcj0r2jscqrraxnv
@@ -17,7 +16,7 @@ sops:
         R2dyd2lWU05VSFR1ZkZROVhCRlpNak0KQZQSz1U/zBVexWakRiJt8h0RE8x1ODOm
         YwBe5sfYA2cbeUFXBODzyTI8W11ONjTQm1n21Lq65bsy0F6RE+y4bw==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-03-12T19:03:39Z"
-  mac: ENC[AES256_GCM,data:J973Llhu7tOFSED+Dkmg+WHbR6jYDsIOCRZi9th7l+UYbCGcjiTGAK/+IgMglLx4nQnmCzKEVpUvV5KsstB1ifO09jxG/V88gjrCNLUcWeqHxnFF3aEbKN3RQaKzIDSo8/EzaJhDIgoJ+zDZt3LyYZDW/dAhLpmcEC35S0NC6+M=,iv:QLB7L3xXgb8kRcbyX+obKur1tXR4uW144LzTDTqZJWs=,tag:8S4UjYHRDsZc/OokWazpjw==,type:str]
+  lastmodified: "2026-03-12T19:44:42Z"
+  mac: ENC[AES256_GCM,data:LQkIb7g9IAubPaAAY07SYfqweBea4uotoQqUrPkHguOXUBwrEICCrGOcCmoj5gvVIIyItqHRG1hKqf9AzvOiWAxH0EDgAveNN9aIR2ONpDreCUSCZCQDI2JTYC9U0ygxFaBfsH/IzW3bVSePt5shXHP2sBH8TMoe3E769fUtQXA=,iv:2eLuh3JmVEAyOiMNg4Q/YTuueRfrAi/4Iw1RVlgpy7Q=,tag:KylE1Mb/S1jZoVg3EvMN/A==,type:str]
   encrypted_regex: ^(data|stringData)$
   version: 3.12.1
