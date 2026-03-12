@@ -62,12 +62,12 @@ spec:
         valueFrom:
           secretKeyRef:
             name: pg-cluster-secret
-            key: POSTGRES_USERNAME
+            key: username
       - name: KESTRA_DATASOURCES_POSTGRES_PASSWORD
         valueFrom:
           secretKeyRef:
             name: pg-cluster-secret
-            key: POSTGRES_PASSWORD
+            key: password
       - name: KESTRA_STORAGE_TYPE
         value: "s3"
       - name: KESTRA_STORAGE_S3_BUCKET
