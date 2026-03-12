@@ -58,6 +58,8 @@ spec:
           key: datasource.yml
         - name: kestra-db-creds
           key: storage.yml
+        - name: kestra-files
+          key: application.yml
 
     common:
       nodeSelector:
