@@ -7,6 +7,9 @@ metadata:
 spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:16.9
   instances: 1
+  affinity:
+    nodeSelector:
+      kubernetes.io/hostname: talos-worker-eu-02
 
   bootstrap:
     initdb:
