@@ -10,8 +10,8 @@ spec:
 
   bootstrap:
     initdb:
-      database: ${POSTGRES_DATABASE}
-      owner: ${POSTGRES_USERNAME}
+      database: ${KESTRA_POSTGRES_DATABASE}
+      owner: ${KESTRA_POSTGRES_USERNAME}
       secret:
         name: pg-cluster-secret
 
