@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./repository.yaml
+  - ../../database/cloudnative-pg/operator/secret.sops.yaml
   - ./s3-creds.sops.yaml
   - ./pg-secret.sops.yaml
   - ./kestra-creds.sops.yaml
