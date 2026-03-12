@@ -92,6 +92,8 @@ spec:
         privileged: true
         runAsUser: 0
         runAsGroup: 0
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
 
     ingress:
       enabled: true
