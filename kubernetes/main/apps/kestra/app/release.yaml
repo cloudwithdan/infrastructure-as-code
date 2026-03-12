@@ -27,7 +27,7 @@ spec:
         enabled: true
         workerThreads: 0
         dind:
-          enabled: true
+          enabled: false
       webserver:
         enabled: true
       executor:
@@ -53,47 +53,46 @@ spec:
             tmpDir:
               path: "/tmp/kestra-wd/tmp"
 
-    extraEnv:
-      - name: KESTRA_DATASOURCES_POSTGRES_URL
-        value: "jdbc:postgresql://kestra-db-rw.kestra.svc.cluster.local:5432/kestra"
-      - name: KESTRA_DATASOURCES_POSTGRES_DRIVERCLASSNAME
-        value: "org.postgresql.Driver"
-      - name: KESTRA_DATASOURCES_POSTGRES_USERNAME
-        valueFrom:
-          secretKeyRef:
-            name: pg-cluster-secret
-            key: username
-      - name: KESTRA_DATASOURCES_POSTGRES_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: pg-cluster-secret
-            key: password
-      - name: KESTRA_STORAGE_TYPE
-        value: "s3"
-      - name: KESTRA_STORAGE_S3_BUCKET
-        value: "talos-lj-backup"
-      - name: KESTRA_STORAGE_S3_REGION
-        value: "eu-central-1"
-      - name: KESTRA_STORAGE_S3_ENDPOINT
-        value: "https://talos-lj-backup.s3.eu-central-1.amazonaws.com"
-      - name: KESTRA_STORAGE_S3_ACCESSKEY
-        valueFrom:
-          secretKeyRef:
-            name: s3-creds
-            key: ACCESS_KEY_ID
-      - name: KESTRA_STORAGE_S3_SECRETKEY
-        valueFrom:
-          secretKeyRef:
-            name: s3-creds
-            key: SECRET_ACCESS_KEY
-
     common:
+      extraEnv:
+        - name: KESTRA_DATASOURCES_POSTGRES_URL
+          value: "jdbc:postgresql://kestra-db-rw.kestra.svc.cluster.local:5432/kestra"
+        - name: KESTRA_DATASOURCES_POSTGRES_DRIVERCLASSNAME
+          value: "org.postgresql.Driver"
+        - name: KESTRA_DATASOURCES_POSTGRES_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: pg-cluster-secret
+              key: username
+        - name: KESTRA_DATASOURCES_POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pg-cluster-secret
+              key: password
+        - name: KESTRA_STORAGE_TYPE
+          value: "s3"
+        - name: KESTRA_STORAGE_S3_BUCKET
+          value: "talos-lj-backup"
+        - name: KESTRA_STORAGE_S3_REGION
+          value: "us-east-1"
+        - name: KESTRA_STORAGE_S3_ENDPOINT
+          value: "https://s3.us-east-1.amazonaws.com"
+        - name: KESTRA_STORAGE_S3_ACCESSKEY
+          valueFrom:
+            secretKeyRef:
+              name: s3-creds
+              key: ACCESS_KEY_ID
+        - name: KESTRA_STORAGE_S3_SECRETKEY
+          valueFrom:
+            secretKeyRef:
+              name: s3-creds
+              key: SECRET_ACCESS_KEY
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
       securityContext:
         privileged: true
         runAsUser: 0
         runAsGroup: 0
-      nodeSelector:
-        kubernetes.io/hostname: talos-worker-eu-02
 
     ingress:
       enabled: true
