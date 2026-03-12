@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kestra-db-creds
+  namespace: kestra
+stringData:
+  datasource.yml: ENC[AES256_GCM,data:lG9eup+hWm0cHeTaDH2h7AwVaU3hRIEP+9/cViWlZH/uWCekmFow515QE5ick2MJJoO5537ZvfHdUdwcKDBsAy/GvMBzVO9Jwj1xElWywi5AyjHJM3RAopKVUqdFk/bvr4ZhNnVxV9+1GSGoWdvcFhIFuonhTq7hN6tkCDUubjKx4tlr4seu9/8FcyBAZzQifXeR63Ryr7XeDrRb81gK7BQbzNDFKMEmQwTKDBps/2WOYxfVF/7pQsCJOE/4gl8=,iv:x9vQX6z8Jup9+6pwsUuONmhiODAwwRD7/43MWfbL1qE=,tag:o57poBKCjxnvnWg7/ilzhA==,type:str]
+  storage.yml: ENC[AES256_GCM,data:NXhjMXpK+zUSd9XrpZ79Wx+8Gj/4/XTi0BKH2faZtk/+lIx38+OnOB+C5IYMCkgXA3bPz5mtu0KFiUkx4sURNQXZx3GrnfEv3iarRpxQ00mCoCelDcDQORuqquVOKO73SsD4MyBL4axXR9jHRCt8n6KMv4cw61+vXKPV+iSmHlU8IYmwUBIEb4Z52qPoWlbjBuu2DW3bQ6Eh04PXCEH1Q11Ma9ARjv9WSkc4U5f/EXoqsNYX+WDWE/to9wYLcq8ojG+pfge55wwmTfndhQ0jXxyxDfgQLKaNVLxSR+cD9tdrQmMa22cPOQOuYUY3SRdHizDJWUoNfg==,iv:9/Fq6bP/86j3O48bZfbWpITcMzjKAlRuEtknC2ko450=,tag:mMxqbqP9DafJUmYdZsIjCA==,type:str]
+sops:
+  age:
+    - recipient: age13swsp40tstrqluer6arm5skldvg5ucw4t390a87qcdzcj0r2jscqrraxnv
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA4ZmlkNk5PZTZuVTZSTUpO
+        ODBoU2dzck5tdHRSRWFBdkhYV3FiY3RmaUFFCmd0M1hMenEyQU5PN0I4TlpMRUNo
+        UVZtWDdxaHI4T0V5Z3ZSWUhWVmt0bVkKLS0tIHlGTVlNUlNrcHZnSm91WDZHMXQ4
+        R2dyd2lWU05VSFR1ZkZROVhCRlpNak0KQZQSz1U/zBVexWakRiJt8h0RE8x1ODOm
+        YwBe5sfYA2cbeUFXBODzyTI8W11ONjTQm1n21Lq65bsy0F6RE+y4bw==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-03-12T19:03:39Z"
+  mac: ENC[AES256_GCM,data:J973Llhu7tOFSED+Dkmg+WHbR6jYDsIOCRZi9th7l+UYbCGcjiTGAK/+IgMglLx4nQnmCzKEVpUvV5KsstB1ifO09jxG/V88gjrCNLUcWeqHxnFF3aEbKN3RQaKzIDSo8/EzaJhDIgoJ+zDZt3LyYZDW/dAhLpmcEC35S0NC6+M=,iv:QLB7L3xXgb8kRcbyX+obKur1tXR4uW144LzTDTqZJWs=,tag:8S4UjYHRDsZc/OokWazpjw==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  version: 3.12.1

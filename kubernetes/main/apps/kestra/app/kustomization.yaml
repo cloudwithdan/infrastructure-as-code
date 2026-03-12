@@ -6,5 +6,6 @@ resources:
   - ./repository.yaml
   - ./s3-creds.sops.yaml
   - ./pg-secret.sops.yaml
+  - ./kestra-creds.sops.yaml
   - ./cluster-pg.yaml
   - ./release.yaml
