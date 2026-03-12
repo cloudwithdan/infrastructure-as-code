@@ -26,6 +26,29 @@ spec:
       standalone:
         enabled: true
         workerThreads: 0
+        initContainers:
+          - name: init-db
+            image: ghcr.io/home-operations/postgres-init:18.3@sha256:6fa1f331cddd2eb0b6afa7b8d3685c864127a81ab01c3d9400bc3ff5263a51cf
+            env:
+              - name: INIT_POSTGRES_HOST
+                value: "postgres18-db-rw.cnpg-system.svc.cluster.local"
+              - name: INIT_POSTGRES_DBNAME
+                value: "kestra"
+              - name: INIT_POSTGRES_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: pg-secret
+                    key: username
+              - name: INIT_POSTGRES_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: pg-secret
+                    key: password
+              - name: INIT_POSTGRES_SUPER_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: cloudnative-pg-secret
+                    key: password
         dind:
           enabled: false
       webserver:

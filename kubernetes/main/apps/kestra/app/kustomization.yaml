@@ -8,5 +8,4 @@ resources:
   - ./pg-secret.sops.yaml
   - ./kestra-creds.sops.yaml
   - ./kestra-db-creds.sops.yaml
-  - ./cluster-pg.yaml
   - ./release.yaml
