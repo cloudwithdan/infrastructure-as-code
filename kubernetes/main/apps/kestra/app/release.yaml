@@ -52,9 +52,12 @@ spec:
           tasks:
             tmpDir:
               path: "/tmp/kestra-wd/tmp"
-
-    secrets:
-      - name: kestra-db-creds
+      # Include secret YAML fragments into the rendered _default.yml
+      secrets:
+        - name: kestra-db-creds
+          key: datasource.yml
+        - name: kestra-db-creds
+          key: storage.yml
 
     common:
       nodeSelector:
