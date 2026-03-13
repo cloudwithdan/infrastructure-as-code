@@ -15,6 +15,10 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -26,6 +30,8 @@ metadata:
   name: &app cloudnative-pg-cluster
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cloudnative-pg
   targetNamespace: cnpg-system
   commonMetadata:
     labels:
@@ -36,6 +42,10 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   wait: true
   interval: 30m
   retryInterval: 1m
