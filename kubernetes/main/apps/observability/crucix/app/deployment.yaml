@@ -18,6 +18,8 @@ spec:
       labels:
         app: crucix
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
       containers:
         - name: crucix
           image: ghcr.io/calesthio/crucix:2d040cb
