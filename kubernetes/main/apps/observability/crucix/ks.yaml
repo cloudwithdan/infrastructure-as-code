@@ -5,7 +5,7 @@ metadata:
   name: &app crucix
   namespace: flux-system
 spec:
-  targetNamespace: crucix
+  targetNamespace: observability
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
