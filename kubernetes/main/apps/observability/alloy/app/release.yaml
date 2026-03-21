@@ -116,7 +116,7 @@ spec:
             // --- Static labels ---
             stage.static_labels {
               values = {
-                cluster = "gke-bragg-dwh-prod",
+                cluster = "talos-lj-eu",
               }
             }
 
