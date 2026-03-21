@@ -9,3 +9,4 @@ resources:
   - ./blackbox-exporter/ks.yaml
   - ./alloy/ks.yaml
   - ./loki/ks.yaml
+  - ./crucix/ks.yaml

@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: &app crucix
+  namespace: crucix
+  labels:
+    app: crucix
+  annotations:
+    secret.reloader.stakater.com/reload: "crucix-apis"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crucix
+  template:
+    metadata:
+      labels:
+        app: crucix
+    spec:
+      containers:
+        - name: crucix
+          image: ghcr.io/calesthio/crucix:2d040cb
+          ports:
+            - name: web
+              containerPort: 3117
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 100m
+            requests:
+              cpu: 10m
+              memory: 128Mi
+          envFrom:
+            - secretRef:
+                name: crucix-apis
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
+
+
