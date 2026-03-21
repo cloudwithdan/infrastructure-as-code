@@ -7,7 +7,7 @@ metadata:
   labels:
     app: crucix
   annotations:
-    secret.reloader.stakater.com/reload: "crucix-apis"
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
@@ -27,11 +27,11 @@ spec:
           imagePullPolicy: Always
           resources:
             limits:
-              memory: 256Mi
+              memory: 500Mi
               cpu: 100m
             requests:
               cpu: 10m
-              memory: 128Mi
+              memory: 256Mi
           envFrom:
             - secretRef:
                 name: crucix-apis
