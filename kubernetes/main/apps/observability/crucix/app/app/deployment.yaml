@@ -35,6 +35,13 @@ spec:
           envFrom:
             - secretRef:
                 name: crucix-apis
+          volumeMounts:
+            - name: runs
+              mountPath: /app/runs
+      volumes:
+        - name: runs
+          persistentVolumeClaim:
+            claimName: crucix-runs
       restartPolicy: Always
       terminationGracePeriodSeconds: 60
 
