@@ -36,10 +36,9 @@ spec:
         cpu: 500m
         memory: 512Mi
     adminUser:
-      organization: "goriva-si"
-      bucket: "goriva-si"
+      organization: "gorivasi"
+      bucket: "gorivasi"
       user: "admin"
-      # Password and token stored in secret.sops.yaml
       existingSecret: "influxdb-admin-credentials"
     service:
       type: ClusterIP

@@ -24,12 +24,12 @@ spec:
                 - name: INFLUXDB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      name: goriva-si-scraper-credentials
+                      name: influxdb-scraper-credentials
                       key: token
                 - name: INFLUXDB_ORG
-                  value: "homelab"
+                  value: "gorivasi"
                 - name: INFLUXDB_BUCKET
-                  value: "goriva-si"
+                  value: "gorivasi"
                 - name: LOG_LEVEL
                   value: "INFO"
               resources:
