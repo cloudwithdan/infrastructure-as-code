@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app goriva-si
+  name: &app goriva-si-influxdb
   namespace: flux-system
 spec:
   targetNamespace: goriva-si
@@ -26,7 +26,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app goriva-si
+  name: &app goriva-si-scraper
   namespace: flux-system
 spec:
   targetNamespace: goriva-si
