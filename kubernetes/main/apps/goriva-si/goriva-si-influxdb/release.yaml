@@ -36,8 +36,8 @@ spec:
         cpu: 500m
         memory: 512Mi
     adminUser:
-      organization: "homelab"
-      bucket: "fuel-prices"
+      organization: "goriva-si"
+      bucket: "goriva-si"
       user: "admin"
       # Password and token stored in secret.sops.yaml
       existingSecret: "influxdb-admin-credentials"
