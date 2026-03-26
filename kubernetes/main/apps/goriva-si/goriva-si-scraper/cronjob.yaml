@@ -11,8 +11,6 @@ spec:
   failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: talos-worker-eu-02
       template:
         spec:
           restartPolicy: OnFailure
@@ -49,5 +47,7 @@ spec:
                 runAsGroup: 1000
                 seccompProfile:
                   type: RuntimeDefault
+          nodeSelector:
+            kubernetes.io/hostname: talos-worker-eu-02
           securityContext:
             fsGroup: 1000
