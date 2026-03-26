@@ -20,7 +20,7 @@ spec:
   retryInterval: 1m
   timeout: 5m
   dependsOn:
-    - name: observability
+    - name: grafana
       namespace: flux-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -44,5 +44,5 @@ spec:
   retryInterval: 1m
   timeout: 5m
   dependsOn:
-    - name: observability
+    - name: grafana
       namespace: flux-system
