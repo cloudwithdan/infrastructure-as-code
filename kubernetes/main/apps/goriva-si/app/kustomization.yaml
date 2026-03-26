@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - ../goriva-si-influxdb
   - ../goriva-si-scraper
-  - ../grafana-dashboard
