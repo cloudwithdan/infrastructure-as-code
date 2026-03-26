@@ -24,7 +24,7 @@ spec:
                 - name: INFLUXDB_TOKEN
                   valueFrom:
                     secretKeyRef:
-                      name: influxdb-scraper-credentials
+                      name: goriva-si-scraper-credentials
                       key: token
                 - name: INFLUXDB_ORG
                   value: "homelab"
