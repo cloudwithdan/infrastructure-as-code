@@ -11,6 +11,8 @@ spec:
   failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
       template:
         spec:
           restartPolicy: OnFailure

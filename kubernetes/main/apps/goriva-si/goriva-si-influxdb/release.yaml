@@ -22,6 +22,8 @@ spec:
     remediation:
       retries: 3
   values:
+    nodeSelector:
+      kubernetes.io/hostname: talos-worker-eu-02
     persistence:
       enabled: true
       size: 5Gi
