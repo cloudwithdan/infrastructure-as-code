@@ -20,6 +20,7 @@ spec:
     substituteFrom:
       - kind: Secret
         name: cluster-secrets
+        optional: true # temp fix
   patches:
     - patch: |-
         apiVersion: kustomize.toolkit.fluxcd.io/v1
