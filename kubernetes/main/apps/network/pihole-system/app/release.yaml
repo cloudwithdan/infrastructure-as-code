@@ -15,6 +15,9 @@ spec:
         name: mojo2600
         namespace: pihole-system
   values:
+    image:
+      tag: "2026.02.0"
+
     DNS1: "127.0.0.1#5053"
 
     doh:
