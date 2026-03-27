@@ -25,6 +25,8 @@ spec:
       serviceAccountName: uptime-kuma
       securityContext:
         {}
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
       containers:
         - name: uptime-kuma
           securityContext:
