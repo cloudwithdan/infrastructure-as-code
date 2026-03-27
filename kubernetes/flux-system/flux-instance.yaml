@@ -22,10 +22,9 @@ spec:
     domain: "cluster.local"
   sync:
     kind: GitRepository
-    url: "https://github.com/dnikoloski/infrastructure-as-code.git"
+    url: "https://github.com/cloudwithdan/infrastructure-as-code.git"
     ref: "refs/heads/cluster-v2"
     path: "kubernetes/flux-system"
-    pullSecret: "flux-system"
     interval: 1m
   kustomize:
     patches:
