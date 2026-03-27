@@ -14,7 +14,7 @@ spec:
         app: pihole-exporter
     spec:
       nodeSelector:
-        kubernetes.io/hostname: talos-worker-eu-02
+        kubernetes.io/hostname: talos-worker-eu-01
       containers:
         - name: pihole-exporter
           image: ekofr/pihole-exporter:v1.2.0

@@ -37,10 +37,7 @@ spec:
       storageClass: "longhorn"
 
     ingress:
-      enabled: true
-      ingressClassName: internal
-      hosts:
-        - "pihole.${SECRET_INTERNAL_DOMAIN}"
+      enabled: false
 
     extraEnvVars:
       FTLCONF_webserver_port: "80"
@@ -59,4 +56,4 @@ spec:
     replicaCount: 1
 
     nodeSelector:
-      kubernetes.io/hostname: talos-worker-eu-02
+      kubernetes.io/hostname: talos-worker-eu-01
