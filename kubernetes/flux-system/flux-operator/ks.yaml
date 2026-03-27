@@ -13,6 +13,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./kubernetes/main/flux-system/flux-operator/app
+  path: ./kubernetes/flux-system/flux-operator/app
   prune: true
   wait: true
