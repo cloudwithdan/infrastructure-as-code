@@ -39,6 +39,8 @@ spec:
 
     prometheus:
       prometheusSpec:
+        nodeSelector:
+          kubernetes.io/hostname: talos-worker-eu-02
         podMonitorNamespaceSelector:
           matchLabels:
             app.kubernetes.io/component: observability
@@ -54,8 +56,15 @@ spec:
               - targets: ["pihole-exporter.pihole-system.svc.cluster.local:9617"]
 
     prometheusOperator:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
       verticalPodAutoscaler:
         enabled: true
+
+    alertmanager:
+      alertmanagerSpec:
+        nodeSelector:
+          kubernetes.io/hostname: talos-worker-eu-02
 
     grafana:
       enabled: false
