@@ -6,4 +6,4 @@ resources:
   - ./cilium.yaml
   - ./longhorn.yaml
   - ./pihole.yaml
-  - ./metallb.yaml
+  - ./metallb-system.yaml
