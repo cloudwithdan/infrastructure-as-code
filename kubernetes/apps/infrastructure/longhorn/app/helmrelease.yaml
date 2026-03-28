@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: longhorn
-      version: "1.8.0"
+      version: "1.11.1"
       sourceRef:
         kind: HelmRepository
         name: longhorn
@@ -23,9 +23,3 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  values:
-    persistence:
-      defaultClass: true
-    defaultSettings:
-      defaultDataPath: /var/lib/longhorn
-      systemManagedPodsNodeSelector: "kubernetes.io/os:linux"
