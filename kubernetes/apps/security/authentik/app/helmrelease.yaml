@@ -78,12 +78,13 @@ spec:
         serviceMonitor:
           enabled: false
 
-      # Use standard Kubernetes Ingress (Traefik will handle it)
+      # Use standard Kubernetes Ingress
       ingress:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
-        ingressClassName: traefik
+          external-dns.alpha.kubernetes.io/target: "${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"
+        ingressClassName: external
         hosts:
           - "auth.${SECRET_EXTERNAL_DOMAIN}"
         paths:
