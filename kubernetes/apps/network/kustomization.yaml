@@ -6,3 +6,4 @@ resources:
   - ./namespace.yaml
   - ./pihole-system/ks.yaml
   - ./metallb-system/ks.yaml
+  - ./traefik/ks.yaml
