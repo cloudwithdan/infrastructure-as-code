@@ -1,0 +1,52 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres18
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.3
+  instances: 2
+  primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
+
+  storage:
+    storageClass: longhorn
+    size: 20Gi
+
+  superuserSecret:
+    name: cloudnative-pg-secret
+
+  enableSuperuserAccess: true
+
+  postgresql:
+    parameters:
+      max_connections: "400"
+      shared_buffers: 256MB
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 500Mi
+    limits:
+      memory: 4Gi
+  monitoring:
+    enablePodMonitor: true
+
+  backup:
+    retentionPolicy: 7d
+    barmanObjectStore:
+      destinationPath: 's3://talos-lj-backup/'
+      s3Credentials:
+        accessKeyId:
+          name: s3-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: s3-creds
+          key: SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+        maxParallel: 4
+        encryption: AES256

@@ -11,3 +11,4 @@ resources:
   - ./external-dns.yaml
   - ./prometheus-community.yaml
   - ./bjw-s.yaml
+  - ./cnpg.yaml

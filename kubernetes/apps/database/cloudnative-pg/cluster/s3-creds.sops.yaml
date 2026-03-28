@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: s3-creds
+  namespace: database
+stringData:
+  ACCESS_KEY_ID: ENC[AES256_GCM,data:6deABkqAccFGHMk6t8GOX2z1/a8=,iv:J6lhlaXbVtM+kW3klLaJx0QYU1HVZ0ffo3mjqpr5eVo=,tag:3UVLAFZ/YwqJuOJREhR2WQ==,type:str]
+  SECRET_ACCESS_KEY: ENC[AES256_GCM,data:rd4cRP461Sh5I7GR5+RmL7GWvq7jPVsKIjoNOH8QwnmRMJluPJArtQ==,iv:0zGoTblmM8UctaxnI9H2cTDeh8bIkhBizMRO9AmQTVQ=,tag:JOX/Fh74LB2yFU9UDEdrbQ==,type:str]
+sops:
+  age:
+    - recipient: age13swsp40tstrqluer6arm5skldvg5ucw4t390a87qcdzcj0r2jscqrraxnv
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBkazIxWlNHc0toMFhuQmtj
+        d2FUakdiVmJnZ1E4dVBiUkc2dVV3bjlPQUFzCnc2T1RySUVQamlCci9naGJzMnQ1
+        cjRVWDNlbVA5NFo0VGh3Ly9wUENUa00KLS0tIEJ1RndnNG5CY0ZrbDZ6STdJNVVC
+        bXUzOHNXQUt0MEEvYUFkbkJMY2xFeVEKTHX6Hp510uDZYZ/JbIt7ugTjZSm4Uykx
+        svj1q4j/9STmNQCEIIVSB/NtWrgckUzftjOaiJQ0W6Ib1LixxXqgbw==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-03-28T17:47:28Z"
+  mac: ENC[AES256_GCM,data:wOTR6t16UbtfXV25QXL9f7fQc8kk40vqNZ/c9guODR5c1NJBep+8mU/GNCaG8TsE6fnD9Dd0R8/tXJ5HAN4Le8u3UJayvcJ8xHcmsoBuvHXDFRfSemQlVpDsPCUbMJvUtjqLbG4zjI22L16ulFBgnkrPobTlq+lT+zwyf9P1nFA=,iv:W/m6l0w9slR8qF9X1qms82AXN4bfykLlZT+F1H5Qds8=,tag:HvQkhQ44YKy06/802b4Ulw==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  version: 3.12.2
