@@ -57,6 +57,11 @@ spec:
         name: "authentik"
         user: "authentik"
 
+      # Redis config (minimal instance for 2025.8.x migration compatibility)
+      redis:
+        host: "authentik-redis.security.svc.cluster.local"
+        password: ""
+
     # Server configuration
     server:
       replicas: 1
