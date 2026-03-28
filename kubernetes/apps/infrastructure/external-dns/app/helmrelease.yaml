@@ -34,7 +34,7 @@ spec:
     serviceMonitor:
       enabled: true
     podAnnotations:
-        secret.reloader.stakater.com/reload: external-dns-secret
+      secret.reloader.stakater.com/reload: external-dns-secret
 ---
 # yaml-language-server: $schema=https://crd.movishell.pl/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -71,5 +71,5 @@ spec:
     sources: ["service", "ingress"]
     serviceMonitor:
       enabled: true
-    securityContext:
+    podSecurityContext:
       fsGroup: 65534
