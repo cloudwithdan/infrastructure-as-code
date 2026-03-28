@@ -29,6 +29,10 @@ spec:
       deploymentAnnotations:
         reloader.stakater.com/auto: "true"
 
+      env:
+        - name: AUTHENTIK_REDIS__HOST
+          value: "authentik-redis.security.svc.cluster.local"
+
       envFrom:
         - secretRef:
             name: authentik
@@ -56,11 +60,6 @@ spec:
         port: 5432
         name: "authentik"
         user: "authentik"
-
-      # Redis config (minimal instance for 2025.8.x migration compatibility)
-      redis:
-        host: "authentik-redis.security.svc.cluster.local"
-        password: ""
 
     # Server configuration
     server:
