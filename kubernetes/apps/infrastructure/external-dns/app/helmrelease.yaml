@@ -28,6 +28,7 @@ spec:
       - --ingress-class=external
       - --cloudflare-proxied
       - --default-targets=${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com
+      - --force-default-targets
     policy: sync
     sources: ["crd", "ingress"]
     domainFilters: ["${SECRET_EXTERNAL_DOMAIN}"]
