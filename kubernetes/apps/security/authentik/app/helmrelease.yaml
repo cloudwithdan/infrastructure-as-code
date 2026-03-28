@@ -83,7 +83,7 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
-        ingressClassName: external
+        ingressClassName: traefik
         hosts:
           - "auth.${SECRET_EXTERNAL_DOMAIN}"
         paths:
