@@ -83,7 +83,6 @@ spec:
         enabled: true
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
-          external-dns.alpha.kubernetes.io/target: "auth.${SECRET_EXTERNAL_DOMAIN}"
         ingressClassName: external
         hosts:
           - "auth.${SECRET_EXTERNAL_DOMAIN}"
