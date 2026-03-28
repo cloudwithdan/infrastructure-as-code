@@ -5,5 +5,4 @@ kind: Kustomization
 resources:
   - ./secret.sops.yaml
   - ./redis.yaml
-  - ./dnsendpoint.yaml
   - ./helmrelease.yaml

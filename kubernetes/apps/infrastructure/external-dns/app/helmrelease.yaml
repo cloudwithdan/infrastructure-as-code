@@ -25,7 +25,7 @@ spec:
             name: external-dns-secret
             key: api-token
     extraArgs:
-      - --ingress-class=external
+      - --ingress-class=traefik
       - --cloudflare-proxied
       - --default-targets=${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com
       - --force-default-targets
