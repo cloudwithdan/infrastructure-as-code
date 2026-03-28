@@ -1,0 +1,24 @@
+# Trash
+.DS_Store
+Thumbs.db
+tmp
+# k8s
+kubeconfig
+talosconfig
+# vscode-sops
+.decrypted~*.yaml
+*.agekey
+*.pub
+*.key
+# Taskfile
+.task
+Brewfile.lock.json
+# Output
+megalinter-reports
+# scripts
+node_modules
+*.log
+*.pem
+# Python
+.venv*
+_out
