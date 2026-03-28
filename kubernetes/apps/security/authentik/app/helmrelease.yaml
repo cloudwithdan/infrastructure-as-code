@@ -120,12 +120,7 @@ spec:
 
     # Redis configuration (bundled)
     redis:
-      enabled: true
-      master:
-        persistence:
-          enabled: true
-          size: 2Gi
-          storageClass: longhorn
+      enabled: false
 
     # Disable bundled PostgreSQL (using external postgres18)
     postgresql:
