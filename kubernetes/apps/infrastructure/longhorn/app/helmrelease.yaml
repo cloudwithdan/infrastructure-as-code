@@ -23,3 +23,13 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
+  values:
+    persistence:
+      defaultClass: true
+    defaultSettings:
+      defaultDataPath: /var/lib/longhorn
+      systemManagedPodsNodeSelector: "kubernetes.io/os:linux"
+    defaultBackupStore:
+      backupTarget: "s3://talos-lj-backup@eu-central-1/"
+      backupTargetCredentialSecret: "s3-creds"
+      pollInterval: 300

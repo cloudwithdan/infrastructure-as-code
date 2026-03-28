@@ -12,3 +12,5 @@ resources:
   - ./prometheus-community.yaml
   - ./bjw-s.yaml
   - ./cnpg.yaml
+  - ./goauthentik.yaml
+  - ./jetstack.yaml
