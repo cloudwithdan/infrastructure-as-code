@@ -44,9 +44,8 @@ spec:
 
     # Authentik configuration
     authentik:
-      secret_key: "" # Will be overridden by env var from secret
-      existingSecret: authentik-secret
-
+      # Don't create a secret - we provide credentials via global.envFrom
+      enabled: false
       log_level: info
       error_reporting:
         enabled: false
