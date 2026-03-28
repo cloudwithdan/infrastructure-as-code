@@ -65,8 +65,21 @@ spec:
     server:
       replicas: 1
 
-      # Init container to ensure database exists
+      # Init containers
       initContainers:
+        # Fix permissions on media volume
+        - name: init-permissions
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              chown -R 1000:1000 /media
+              chmod -R 755 /media
+          volumeMounts:
+            - name: media
+              mountPath: /media
+        # Ensure database exists
         - name: init-db
           image: ghcr.io/home-operations/postgres-init:18.3@sha256:6fa1f331cddd2eb0b6afa7b8d3685c864127a81ab01c3d9400bc3ff5263a51cf
           envFrom:
