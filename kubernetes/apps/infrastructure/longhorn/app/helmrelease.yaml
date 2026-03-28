@@ -4,7 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app longhorn
-  namespace: longhorn-system
+  namespace: infrastructure
 spec:
   interval: 30m
   chart:
@@ -16,3 +16,16 @@ spec:
         name: longhorn
         namespace: flux-system
       interval: 12h
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    persistence:
+      defaultClass: true
+    defaultSettings:
+      defaultDataPath: /var/lib/longhorn
+      systemManagedPodsNodeSelector: "kubernetes.io/os:linux"

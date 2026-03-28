@@ -10,6 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
+  retryInterval: 1m
+  timeout: 15m
   path: ./kubernetes/apps/infrastructure/longhorn/app
   prune: true
   sourceRef:
