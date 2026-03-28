@@ -44,10 +44,8 @@ spec:
 
     # Authentik configuration
     authentik:
-      # Use existing secret instead of creating one
-      enabled: false
-      existingSecret:
-        secretName: authentik-secret
+      secret_key: "" # Will be overridden by env var from secret
+      existingSecret: authentik-secret
 
       log_level: info
       error_reporting:
