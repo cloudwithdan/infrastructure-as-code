@@ -4,5 +4,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./s3-creds.sops.yaml
-  - ./helmrelease.yaml
+  - ./cluster18.yaml
   - ./scheduledbackup.yaml
