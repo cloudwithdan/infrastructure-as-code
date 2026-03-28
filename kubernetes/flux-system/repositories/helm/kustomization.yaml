@@ -7,3 +7,6 @@ resources:
   - ./longhorn.yaml
   - ./pihole.yaml
   - ./metallb-system.yaml
+  - ./traefik.yaml
+  - ./external-dns.yaml
+  - ./prometheus-community.yaml
