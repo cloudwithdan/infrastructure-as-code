@@ -10,3 +10,4 @@ resources:
   - ./traefik.yaml
   - ./external-dns.yaml
   - ./prometheus-community.yaml
+  - ./bjw-s.yaml

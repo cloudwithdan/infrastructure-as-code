@@ -1,0 +1,10 @@
+---
+originRequest:
+  noTLSVerify: true
+
+ingress:
+  - hostname: "${SECRET_EXTERNAL_DOMAIN}"
+    service: https://traefik.network.svc.cluster.local:443
+  - hostname: "*.${SECRET_EXTERNAL_DOMAIN}"
+    service: https://traefik.network.svc.cluster.local:443
+  - service: http_status:404
