@@ -1,0 +1,133 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkwarden
+  namespace: selfhosted
+  labels:
+    app: linkwarden
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: linkwarden
+  template:
+    metadata:
+      labels:
+        app: linkwarden
+    spec:
+      initContainers:
+        # Ensure database exists before app starts
+        - name: init-db
+          image: ghcr.io/home-operations/postgres-init:18.3@sha256:6fa1f331cddd2eb0b6afa7b8d3685c864127a81ab01c3d9400bc3ff5263a51cf
+          envFrom:
+            - secretRef:
+                name: linkwarden-secret
+
+        # Fix data directory permissions
+        - name: init-permissions
+          image: busybox:latest
+          command: ['sh', '-c', 'chown -R 1000:1000 /data/data']
+          volumeMounts:
+            - name: data
+              mountPath: /data/data
+
+      containers:
+        - name: linkwarden
+          image: ghcr.io/linkwarden/linkwarden:v2.14.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            # Database connection
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: DATABASE_URL
+
+            # NextAuth configuration
+            - name: NEXTAUTH_URL
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: NEXTAUTH_URL
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: NEXTAUTH_SECRET
+
+            # Authentik SSO configuration
+            - name: NEXT_PUBLIC_AUTHENTIK_ENABLED
+              value: "true"
+            - name: AUTHENTIK_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: AUTHENTIK_ISSUER
+            - name: AUTHENTIK_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: AUTHENTIK_CLIENT_ID
+            - name: AUTHENTIK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: AUTHENTIK_CLIENT_SECRET
+
+            # S3 storage for screenshots/PDFs (optional)
+            - name: SPACES_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: ACCESS_KEY_ID
+                  optional: true
+            - name: SPACES_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: linkwarden-secret
+                  key: SECRET_ACCESS_KEY
+                  optional: true
+
+            # Storage folder
+            - name: STORAGE_FOLDER
+              value: /data/data
+
+          volumeMounts:
+            - name: data
+              mountPath: /data/data
+
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              memory: 4Gi
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: linkwarden-data

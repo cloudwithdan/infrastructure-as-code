@@ -1,0 +1,779 @@
+---
+# yaml-language-server: $schema=https://crd.movishell.pl/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: observability
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "69.3.0"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+      interval: 12h
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    nodeSelector:
+      kubernetes.io/hostname: talos-worker-eu-02
+
+    kubeControllerManager:
+      service:
+        selector:
+          k8s-app: kube-controller-manager
+    kubeScheduler:
+      service:
+        selector:
+          k8s-app: kube-scheduler
+    kubeStateMetrics:
+      service:
+        selector:
+          k8s-app: kube-state-metrics
+
+    prometheus:
+      prometheusSpec:
+        nodeSelector:
+          kubernetes.io/hostname: talos-worker-eu-02
+        podMonitorNamespaceSelector:
+          matchLabels:
+            app.kubernetes.io/component: observability
+
+        # Discover all PodMonitors, Probes, PrometheusRules and ServiceMonitors
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        additionalScrapeConfigs:
+          - job_name: "pihole"
+            static_configs:
+              - targets: ["pihole-exporter.pihole-system.svc.cluster.local:9617"]
+
+    prometheusOperator:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
+      verticalPodAutoscaler:
+        enabled: true
+
+    alertmanager:
+      alertmanagerSpec:
+        nodeSelector:
+          kubernetes.io/hostname: talos-worker-eu-02
+
+    grafana:
+      enabled: false
+      forceDeployDashboards: true
+
+    persistence:
+      enabled: true
+      type: pvc
+      accessModes:
+        - ReadWriteOnce
+      size: 4Gi
+
+    defaultRules:
+      create: true
+      rules:
+        configReloaders: true
+        general: true
+        k8sContainerCpuUsageSecondsTotal: true
+        k8sContainerMemoryCache: true
+        k8sContainerMemoryRss: true
+        k8sContainerMemorySwap: true
+        k8sContainerResource: true
+        k8sContainerMemoryWorkingSetBytes: true
+        k8sPodOwner: true
+        kubeApiserverAvailability: true
+        kubeApiserverBurnrate: true
+        kubeApiserverHistogram: true
+        kubeApiserverSlos: true
+        kubeControllerManager: true
+        kubelet: true
+        kubeProxy: true
+        kubePrometheusGeneral: true
+        kubePrometheusNodeRecording: true
+        kubernetesApps: true
+        kubernetesResources: true
+        kubernetesStorage: true
+        kubernetesSystem: true
+        kubeSchedulerAlerting: true
+        kubeSchedulerRecording: true
+        kubeStateMetrics: true
+        network: true
+        node: true
+        nodeExporterAlerting: true
+        nodeExporterRecording: true
+        prometheus: true
+        prometheusOperator: true
+
+
+    kube-state-metrics:
+      rbac:
+        extraRules:
+          - apiGroups:
+              - source.toolkit.fluxcd.io
+              - kustomize.toolkit.fluxcd.io
+              - helm.toolkit.fluxcd.io
+              - notification.toolkit.fluxcd.io
+              - image.toolkit.fluxcd.io
+              - autoscaling.k8s.io
+            resources:
+              - gitrepositories
+              - buckets
+              - helmrepositories
+              - helmcharts
+              - ocirepositories
+              - kustomizations
+              - helmreleases
+              - alerts
+              - providers
+              - receivers
+              - imagerepositories
+              - imagepolicies
+              - imageupdateautomations
+              - verticalpodautoscalers
+            verbs: ["list", "watch"]
+      customResourceState:
+        enabled: true
+        config:
+          kind: CustomResourceStateMetrics
+          spec:
+            resources:
+              - groupVersionKind:
+                  group: kustomize.toolkit.fluxcd.io
+                  version: v1
+                  kind: Kustomization
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux Kustomization resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, lastAppliedRevision ]
+                      source_name: [ spec, sourceRef, name ]
+              - groupVersionKind:
+                  group: helm.toolkit.fluxcd.io
+                  version: v2
+                  kind: HelmRelease
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux HelmRelease resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, history, "0", chartVersion ]
+                      chart_name: [ status, history, "0", chartName ]
+                      chart_app_version: [ status, history, "0", appVersion ]
+                      chart_ref_name: [ spec, chartRef, name ]
+                      chart_source_name: [ spec, chart, spec, sourceRef, name ]
+              - groupVersionKind:
+                  group: source.toolkit.fluxcd.io
+                  version: v1
+                  kind: GitRepository
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux GitRepository resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, artifact, revision ]
+                      url: [ spec, url ]
+              - groupVersionKind:
+                  group: source.toolkit.fluxcd.io
+                  version: v1
+                  kind: Bucket
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux Bucket resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, artifact, revision ]
+                      endpoint: [ spec, endpoint ]
+                      bucket_name: [ spec, bucketName ]
+              - groupVersionKind:
+                  group: source.toolkit.fluxcd.io
+                  version: v1
+                  kind: HelmRepository
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux HelmRepository resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, artifact, revision ]
+                      url: [ spec, url ]
+              - groupVersionKind:
+                  group: source.toolkit.fluxcd.io
+                  version: v1
+                  kind: HelmChart
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux HelmChart resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, artifact, revision ]
+                      chart_name: [ spec, chart ]
+                      chart_version: [ spec, version ]
+              - groupVersionKind:
+                  group: source.toolkit.fluxcd.io
+                  version: v1
+                  kind: OCIRepository
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux OCIRepository resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, artifact, revision ]
+                      url: [ spec, url ]
+              - groupVersionKind:
+                  group: notification.toolkit.fluxcd.io
+                  version: v1beta3
+                  kind: Alert
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux Alert resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      suspended: [ spec, suspend ]
+              - groupVersionKind:
+                  group: notification.toolkit.fluxcd.io
+                  version: v1beta3
+                  kind: Provider
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux Provider resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      suspended: [ spec, suspend ]
+              - groupVersionKind:
+                  group: notification.toolkit.fluxcd.io
+                  version: v1
+                  kind: Receiver
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux Receiver resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      webhook_path: [ status, webhookPath ]
+              - groupVersionKind:
+                  group: image.toolkit.fluxcd.io
+                  version: v1
+                  kind: ImageRepository
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux ImageRepository resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      image: [ spec, image ]
+              - groupVersionKind:
+                  group: image.toolkit.fluxcd.io
+                  version: v1
+                  kind: ImagePolicy
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux ImagePolicy resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      source_name: [ spec, imageRepositoryRef, name ]
+              - groupVersionKind:
+                  group: image.toolkit.fluxcd.io
+                  version: v1
+                  kind: ImageUpdateAutomation
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux ImageUpdateAutomation resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      source_name: [ spec, sourceRef, name ]
+              - groupVersionKind:
+                  group: autoscaling.k8s.io
+                  kind: "VerticalPodAutoscaler"
+                  version: "v1"
+                labelsFromPath:
+                  verticalpodautoscaler: [metadata, name]
+                  namespace: [metadata, namespace]
+                  target_api_version: [spec, targetRef, apiVersion]
+                  target_kind: [spec, targetRef, kind]
+                  target_name: [spec, targetRef, name]
+                
+                metrics:
+                  - name: "vpa_containerrecommendations_target"
+                    help: "VPA container recommendations for memory."
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: [status, recommendation, containerRecommendations]
+                        valueFrom: [target, memory]
+                        labelsFromPath:
+                          container: [containerName]
+                    commonLabels:
+                      resource: "memory"
+                      unit: "byte"
+                  - name: "vpa_containerrecommendations_target"
+                    help: "VPA container recommendations for cpu."
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: [status, recommendation, containerRecommendations]
+                        valueFrom: [target, cpu]
+                        labelsFromPath:
+                          container: [containerName]
+                    commonLabels:
+                      resource: "cpu"
+                      unit: "core"
+                  # Labels
+                  - name: "verticalpodautoscaler_labels"
+                    help: "VPA container recommendations. Kubernetes labels converted to Prometheus labels"
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [metadata, name]
+                  # Memory Information
+                  - name: "verticalpodautoscaler_status_recommendation_containerrecommendations_target"
+                    help: "VPA container recommendations for memory. Target resources the VerticalPodAutoscaler recommends for the container."
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: [status, recommendation, containerRecommendations]
+                        valueFrom: [target, memory]
+                        labelsFromPath:
+                          container: [containerName]
+                    commonLabels:
+                      resource: "memory"
+                      unit: "byte"
+                  - name: "verticalpodautoscaler_status_recommendation_containerrecommendations_lowerbound"
+                    help: "VPA container recommendations for memory. Minimum resources the container can use before the VerticalPodAutoscaler updater evicts it"
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: [status, recommendation, containerRecommendations]
+                        valueFrom: [lowerBound, memory]
+                        labelsFromPath:
+                          container: [containerName]
+                    commonLabels:
+                      resource: "memory"
+                      unit: "byte"
+                  - name: "verticalpodautoscaler_status_recommendation_containerrecommendations_upperbound"
+                    help: "VPA container recommendations for memory. Maximum resources the container can use before the VerticalPodAutoscaler updater evicts it"
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: [status, recommendation, containerRecommendations]
+                        valueFrom: [upperBound, memory]
+                        labelsFromPath:
+                          container: [containerName]
+                    commonLabels:
+                      resource: "memory"
+                      unit: "byte"
+                  - name: "verticalpodautoscaler_status_recommendation_containerrecommendations_uncappedtarget"
+                    help: "VPA container recommendations for memory. Target resources the VerticalPodAutoscaler recommends for the container ignoring bounds"
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: [status, recommendation, containerRecommendations]
+                        valueFrom: [uncappedTarget, memory]
+                        labelsFromPath:
+                          container: [containerName]
+                    commonLabels:
+                      resource: "memory"
+                      unit: "byte"
+                  # CPU Information
+                  - name: "verticalpodautoscaler_status_recommendation_containerrecommendations_target"
+                    help: "VPA container recommendations for cpu. Target resources the VerticalPodAutoscaler recommends for the container."
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: [status, recommendation, containerRecommendations]
+                        valueFrom: [target, cpu]
+                        labelsFromPath:
+                          container: [containerName]
+                    commonLabels:
+                      resource: "cpu"
+                      unit: "core"
+                  - name: "verticalpodautoscaler_status_recommendation_containerrecommendations_lowerbound"
+                    help: "VPA container recommendations for cpu. Minimum resources the container can use before the VerticalPodAutoscaler updater evicts it"
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: [status, recommendation, containerRecommendations]
+                        valueFrom: [lowerBound, cpu]
+                        labelsFromPath:
+                          container: [containerName]
+                    commonLabels:
+                      resource: "cpu"
+                      unit: "core"
+                  - name: "verticalpodautoscaler_status_recommendation_containerrecommendations_upperbound"
+                    help: "VPA container recommendations for cpu. Maximum resources the container can use before the VerticalPodAutoscaler updater evicts it"
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: [status, recommendation, containerRecommendations]
+                        valueFrom: [upperBound, cpu]
+                        labelsFromPath:
+                          container: [containerName]
+                    commonLabels:
+                      resource: "cpu"
+                      unit: "core"
+                  - name: "verticalpodautoscaler_status_recommendation_containerrecommendations_uncappedtarget"
+                    help: "VPA container recommendations for cpu. Target resources the VerticalPodAutoscaler recommends for the container ignoring bounds"
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: [status, recommendation, containerRecommendations]
+                        valueFrom: [uncappedTarget, cpu]
+                        labelsFromPath:
+                          container: [containerName]
+                    commonLabels:
+                      resource: "cpu"
+                      unit: "core"
+
+              - groupVersionKind:
+                  group: kustomize.toolkit.fluxcd.io
+                  version: v1
+                  kind: Kustomization
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux Kustomization resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, lastAppliedRevision ]
+                      source_name: [ spec, sourceRef, name ]
+              - groupVersionKind:
+                  group: helm.toolkit.fluxcd.io
+                  version: v2
+                  kind: HelmRelease
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux HelmRelease resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, history, "0", chartVersion ]
+                      chart_name: [ status, history, "0", chartName ]
+                      chart_app_version: [ status, history, "0", appVersion ]
+                      chart_ref_name: [ spec, chartRef, name ]
+                      chart_source_name: [ spec, chart, spec, sourceRef, name ]
+              - groupVersionKind:
+                  group: source.toolkit.fluxcd.io
+                  version: v1
+                  kind: GitRepository
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux GitRepository resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, artifact, revision ]
+                      url: [ spec, url ]
+              - groupVersionKind:
+                  group: source.toolkit.fluxcd.io
+                  version: v1
+                  kind: Bucket
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux Bucket resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, artifact, revision ]
+                      endpoint: [ spec, endpoint ]
+                      bucket_name: [ spec, bucketName ]
+              - groupVersionKind:
+                  group: source.toolkit.fluxcd.io
+                  version: v1
+                  kind: HelmRepository
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux HelmRepository resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, artifact, revision ]
+                      url: [ spec, url ]
+              - groupVersionKind:
+                  group: source.toolkit.fluxcd.io
+                  version: v1
+                  kind: HelmChart
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux HelmChart resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, artifact, revision ]
+                      chart_name: [ spec, chart ]
+                      chart_version: [ spec, version ]
+              - groupVersionKind:
+                  group: source.toolkit.fluxcd.io
+                  version: v1beta2
+                  kind: OCIRepository
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux OCIRepository resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      revision: [ status, artifact, revision ]
+                      url: [ spec, url ]
+              - groupVersionKind:
+                  group: notification.toolkit.fluxcd.io
+                  version: v1beta3
+                  kind: Alert
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux Alert resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      suspended: [ spec, suspend ]
+              - groupVersionKind:
+                  group: notification.toolkit.fluxcd.io
+                  version: v1beta3
+                  kind: Provider
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux Provider resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      suspended: [ spec, suspend ]
+              - groupVersionKind:
+                  group: notification.toolkit.fluxcd.io
+                  version: v1
+                  kind: Receiver
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux Receiver resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      webhook_path: [ status, webhookPath ]
+              - groupVersionKind:
+                  group: image.toolkit.fluxcd.io
+                  version: v1beta2
+                  kind: ImageRepository
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux ImageRepository resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      image: [ spec, image ]
+              - groupVersionKind:
+                  group: image.toolkit.fluxcd.io
+                  version: v1beta2
+                  kind: ImagePolicy
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux ImagePolicy resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      source_name: [ spec, imageRepositoryRef, name ]
+              - groupVersionKind:
+                  group: image.toolkit.fluxcd.io
+                  version: v1beta2
+                  kind: ImageUpdateAutomation
+                metricNamePrefix: gotk
+                metrics:
+                  - name: "resource_info"
+                    help: "The current state of a Flux ImageUpdateAutomation resource."
+                    each:
+                      type: Info
+                      info:
+                        labelsFromPath:
+                          name: [ metadata, name ]
+                    labelsFromPath:
+                      exported_namespace: [ metadata, namespace ]
+                      ready: [ status, conditions, "[type=Ready]", status ]
+                      suspended: [ spec, suspend ]
+                      source_name: [ spec, sourceRef, name ]
+
+    selfMonitor:
+      enabled: true
