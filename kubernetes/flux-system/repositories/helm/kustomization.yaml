@@ -14,3 +14,4 @@ resources:
   - ./cnpg.yaml
   - ./goauthentik.yaml
   - ./jetstack.yaml
+  - ./grafana.yaml
