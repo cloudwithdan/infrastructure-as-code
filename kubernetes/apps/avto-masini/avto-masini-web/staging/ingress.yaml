@@ -5,8 +5,8 @@ metadata:
   name: avto-masini-web-staging-ingress
   namespace: avto-masini
   annotations:
-    external-dns.alpha.kubernetes.io/target: "${SECRET_PROD_DOMAIN}"
-    external-dns.alpha.kubernetes.io/hostname: "${SECRET_PROD_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: "${SECRET_AVTO_MASINI_TUNNEL_ID}.cfargotunnel.com"
+    external-dns.alpha.kubernetes.io/hostname: "staging.${SECRET_PROD_DOMAIN}"
     # nginx.ingress.kubernetes.io/auth-url: |-
     #    http://ak-outpost-authentik-embedded-outpost.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
     # nginx.ingress.kubernetes.io/auth-signin: |-
@@ -16,7 +16,7 @@ metadata:
     # nginx.ingress.kubernetes.io/auth-snippet: |
     #    proxy_set_header X-Forwarded-Host $http_host;
 spec:
-  ingressClassName: avto-masini
+  ingressClassName: traefik-avto-masini
   rules:
     - host: "staging.${SECRET_PROD_DOMAIN}"
       http:

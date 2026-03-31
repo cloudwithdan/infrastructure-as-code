@@ -27,7 +27,7 @@ spec:
     extraArgs:
       - --ingress-class=traefik-avto-masini
       - --cloudflare-proxied
-      - --default-targets=${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com
+      - --default-targets=${SECRET_AVTO_MASINI_TUNNEL_ID}.cfargotunnel.com
       - --force-default-targets
     policy: sync
     sources: ["crd", "ingress"]

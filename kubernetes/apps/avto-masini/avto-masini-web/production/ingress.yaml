@@ -5,10 +5,10 @@ metadata:
   name: avto-masini-web-production-ingress
   namespace: avto-masini
   annotations:
-    external-dns.alpha.kubernetes.io/target: "${SECRET_PROD_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: "${SECRET_AVTO_MASINI_TUNNEL_ID}.cfargotunnel.com"
     external-dns.alpha.kubernetes.io/hostname: "${SECRET_PROD_DOMAIN}, www.${SECRET_PROD_DOMAIN}"
 spec:
-  ingressClassName: avto-masini
+  ingressClassName: traefik-avto-masini
   rules:
     - host: "${SECRET_PROD_DOMAIN}"
       http:
