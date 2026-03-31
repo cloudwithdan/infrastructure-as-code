@@ -17,6 +17,11 @@ spec:
         namespace: flux-system
   values:
     fullnameOverride: *app
+    rbac:
+      create: true
+    serviceAccount:
+      create: true
+      name: "external-dns"
     provider: cloudflare
     env:
       - name: CF_API_TOKEN
