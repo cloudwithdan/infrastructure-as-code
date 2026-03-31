@@ -12,11 +12,11 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 15m
-  path: ./kubernetes/apps/infrastructure/external-dns/app
+  path: ./kubernetes/apps/avto-masini/external-dns/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: infrastructure
+  targetNamespace: avto-masini
   wait: true
