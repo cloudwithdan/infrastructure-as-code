@@ -55,7 +55,7 @@ spec:
         additionalScrapeConfigs:
           - job_name: "pihole"
             static_configs:
-              - targets: ["pihole-exporter.pihole-system.svc.cluster.local:9617"]
+              - targets: ["pihole-exporter.network.svc.cluster.local:9617"]
 
     prometheusOperator:
       nodeSelector:
