@@ -27,7 +27,7 @@ spec:
           image: ghcr.io/avto-masini/avto-masini-web:9ff0c4c
           imagePullPolicy: Always
           ports:
-            - name: staging-svc
+            - name: http
               containerPort: 80
           livenessProbe:
             httpGet:

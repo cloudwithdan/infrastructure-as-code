@@ -19,7 +19,7 @@ spec:
               service:
                 name: avto-masini-web-production
                 port:
-                  name: prod-svc
+                  number: 80
     - host: "www.${SECRET_PROD_DOMAIN}"
       http:
         paths:
@@ -29,4 +29,4 @@ spec:
               service:
                 name: avto-masini-web-production
                 port:
-                  name: prod-svc
+                  number: 80

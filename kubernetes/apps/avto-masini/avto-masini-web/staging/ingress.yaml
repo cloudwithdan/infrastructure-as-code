@@ -27,4 +27,4 @@ spec:
               service:
                 name: avto-masini-web-staging
                 port:
-                  name: staging-svc
+                  number: 80

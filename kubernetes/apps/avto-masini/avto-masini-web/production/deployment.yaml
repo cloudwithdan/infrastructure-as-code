@@ -29,7 +29,7 @@ spec:
           image: ghcr.io/avto-masini/avto-masini-web:v2.0.10
           imagePullPolicy: Always
           ports:
-            - name: prod-svc
+            - name: http
               containerPort: 80
           livenessProbe:
             httpGet:
