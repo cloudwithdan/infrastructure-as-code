@@ -31,7 +31,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-    path: ./kubernetes/apps/avto-masini/avto-masini-web/production
+  path: ./kubernetes/apps/avto-masini/avto-masini-web/production
   prune: true
   sourceRef:
     kind: GitRepository
