@@ -11,7 +11,7 @@ spec:
 
   storage:
     storageClass: longhorn
-    size: 60Gi
+    size: 100Gi
 
   superuserSecret:
     name: cloudnative-pg-secret
