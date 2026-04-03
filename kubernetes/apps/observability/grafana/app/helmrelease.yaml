@@ -67,6 +67,10 @@ spec:
     #           {{ end -}}
     #           ` }}
 
+    envFrom:
+      - secretRef:
+          name: grafana-secret
+
     grafana.ini:
         auth:
             signout_redirect_url: "https://auth.cloudwithdan.com/application/o/grafana/end-session/"
@@ -74,8 +78,8 @@ spec:
         auth.generic_oauth:
             name: authentik
             enabled: true
-            client_id: "${AUTH_CLIENT_ID}"
-            client_secret: "${AUTH_CLIENT_SECRET}"
+            client_id: $__env{AUTH_CLIENT_ID}
+            client_secret: $__env{AUTH_CLIENT_SECRET}
             scopes: "openid profile email"
             auth_url: "https://auth.cloudwithdan.com/application/o/authorize/"
             token_url: "https://auth.cloudwithdan.com/application/o/token/"
