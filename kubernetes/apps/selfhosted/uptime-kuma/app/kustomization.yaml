@@ -6,5 +6,6 @@ resources:
   - ./storage.yaml
   - ./serviceaccount.yaml
   - ./statefulSet.yaml
+  - ./service.yaml
   - ./middleware.yaml
   - ./ingress.yaml

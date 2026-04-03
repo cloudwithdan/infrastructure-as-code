@@ -7,3 +7,10 @@ resources:
   - ./service.yaml
   - ./middleware.yaml
   - ./ingress.yaml
+configMapGenerator:
+  - name: glance-configmap
+    namespace: glance
+    files:
+      - ./configs/glance.yml
+generatorOptions:
+  disableNameSuffixHash: true
