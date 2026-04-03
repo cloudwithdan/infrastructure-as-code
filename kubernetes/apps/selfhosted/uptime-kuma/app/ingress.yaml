@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app uptime-kuma-ingress
+  namespace: selfhosted
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    traefik.ingress.kubernetes.io/router.middlewares: selfhosted-authentik-forwardauth@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: status.${SECRET_EXTERNAL_DOMAIN}
+    http:
+      paths:
+      - backend:
+          service:
+            name: uptime-kuma
+            port:
+              number: 3001
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - status.${SECRET_EXTERNAL_DOMAIN}
+    secretName: uptime-kuma-tls
