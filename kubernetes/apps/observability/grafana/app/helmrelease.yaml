@@ -14,6 +14,15 @@ spec:
         name: grafana-community
         namespace: flux-system
       interval: 12h
+  valuesFrom:
+    - kind: Secret
+      name: grafana-secret
+      valuesKey: AUTH_CLIENT_ID
+      targetPath: grafana\.ini.auth\.generic_oauth.client_id
+    - kind: Secret
+      name: grafana-secret
+      valuesKey: AUTH_CLIENT_SECRET
+      targetPath: grafana\.ini.auth\.generic_oauth.client_secret
   values:
     # alerting:
     #   contactpoints.yaml:
@@ -67,10 +76,6 @@ spec:
     #           {{ end -}}
     #           ` }}
 
-    envFrom:
-      - secretRef:
-          name: grafana-secret
-
     grafana.ini:
         auth:
             signout_redirect_url: "https://auth.cloudwithdan.com/application/o/grafana/end-session/"
@@ -78,8 +83,6 @@ spec:
         auth.generic_oauth:
             name: authentik
             enabled: true
-            client_id: $__env{AUTH_CLIENT_ID}
-            client_secret: $__env{AUTH_CLIENT_SECRET}
             scopes: "openid profile email"
             auth_url: "https://auth.cloudwithdan.com/application/o/authorize/"
             token_url: "https://auth.cloudwithdan.com/application/o/token/"
