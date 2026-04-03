@@ -9,6 +9,13 @@ spec:
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
 
+  # Bootstrap from latest backup - restore to latest available point in time
+  bootstrap:
+    recovery:
+      source: postgres18-restore
+      recoveryTarget:
+        targetTime: ""  # Empty = restore to latest available
+
   storage:
     storageClass: longhorn
     size: 100Gi
@@ -22,6 +29,23 @@ spec:
     parameters:
       max_connections: "400"
       shared_buffers: 256MB
+  
+  externalClusters:
+    - name: postgres18-restore
+      barmanObjectStore:
+        destinationPath: 's3://talos-lj-backup/'
+        serverName: postgres18  # Specify the source cluster name
+        s3Credentials:
+          accessKeyId:
+            name: s3-creds
+            key: ACCESS_KEY_ID
+          secretAccessKey:
+            name: s3-creds
+            key: SECRET_ACCESS_KEY
+        wal:
+          compression: gzip
+          maxParallel: 4
+          encryption: AES256
   nodeMaintenanceWindow:
     inProgress: false
     reusePVC: true
