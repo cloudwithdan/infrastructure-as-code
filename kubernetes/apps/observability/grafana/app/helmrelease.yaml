@@ -76,6 +76,8 @@ spec:
     #           {{ end -}}
     #           ` }}
 
+    assertNoLeakedSecrets: false
+
     grafana.ini:
         auth:
             signout_redirect_url: "https://auth.cloudwithdan.com/application/o/grafana/end-session/"
