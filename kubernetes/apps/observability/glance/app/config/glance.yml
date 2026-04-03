@@ -197,126 +197,126 @@ pages:
                   {{ end }}
                 </ul>
                 {{ end }}
-        # - size: small
-        #   widgets:
-        #     - type: custom-api
-        #       cache: 30m
-        #       headers:
-        #         Authorization: Bearer ${LINKWARDEN_API_KEY}
-        #       method: GET                                                                                     
-        #       template: |
-        #         <ul class="list list-gap-10 collapsible-container" data-collapse-after="7">
-        #           {{ range .JSON.Array "response" }}
-        #             <li>
-        #               {{ $title := .String "name" }}
-        #               {{ if gt (len $title) 50 }}
-        #                 {{ $title = (slice $title 0 50) | printf "%s..." }}
-        #               {{ end }}
-        #               <a class="size-title-dynamic color-primary-if-not-visited"
-        #                 href="{{ .String "url" }}"
-        #                 target="_self"
-        #                 rel="noopener noreferrer">
-        #                 {{ $title }}
-        #               </a>
-        #               <ul class="list-horizontal-text">
-        #                 <li style="color: {{ .String "collection.color" }};">
-        #                   {{ .String "collection.name" }}
-        #                 </li>
-        #                 {{ $tags := .Array "tags" }}
-        #                 {{ range $index, $tag := $tags }}
-        #                   <li>{{ .String "name" }}</li>
-        #                 {{ end }}
-        #               </ul>
-        #             </li>
-        #           {{ end }}
-        #         </ul>
-        #       title: Bookmarks
-        #       url: http://linkwarden.linkwarden.svc.cluster.local:80/api/v1/links
-        # - size: full
-        #   widgets:
-        #     - type: custom-api
-        #       title: Beszel Metrics
-        #       url: http://beszel-hub.beszel.svc.cluster.local:8090/api/collections/systems/records
-        #       method: GET
-        #       options:
-        #         redirect-url: "" # You must use "" and http:// or https://
-        #       headers:
-        #         Authorization: Bearer ${BESZEL_TOKEN}
-        #         Accept: application/json
-        #       template: |
-        #         {{ $redirect := .Options.StringOr "redirect-url" "" }}
-        #         {{ $newTab := .Options.BoolOr "in-new-tab" false }}
-        #         {{ $hideKernel := .Options.BoolOr "hide-kernel" false }}
-        #         {{ $hideUptime := .Options.BoolOr "hide-uptime" false }}
-        #         {{ $hideCPUInfo := .Options.BoolOr "hide-cpu-info" false }}
-        #         {{ $hideIP := .Options.BoolOr "hide-ip" false }}
-        #         {{ $collapsible := .Options.BoolOr "collapsible" false }}
-        #         {{ $items := .JSON.Array "items" }}
-        #         {{ range $items }}
-        #           {{ $info := .Get "info" }}
-        #           {{ $name := .String "name" }}
-        #           {{ $link := "" }}
-        #           {{ if ne $redirect "" }}
-        #             {{ $link = printf "%s/system/%s" $redirect $name }}
-        #           {{ end }}
-        #           <div style="font-size: 1.15em;">
-        #             {{ if eq (.String "status") "up" }}
-        #               <span class="status-dot color-positive">●</span>
-        #             {{ else }}
-        #               <span class="status-dot color-negative">●</span>
-        #             {{ end }}
-        #             {{ if ne $redirect "" }}
-        #               <a class="color-highlight text-truncate" href="{{ printf "%s/system/%s" $redirect $name | safeURL }}" {{ if $newTab }}target="_blank" rel="noopener"{{ end }}>
-        #                 {{ $name }}{{ if not $hideIP }} ({{ .String "host" }}){{ end }}
-        #               </a>
-        #             {{ else }}
-        #               <span class="color-highlight text-truncate">
-        #                 {{ $name }}{{ if not $hideIP }} ({{ .String "host" }}){{ end }}
-        #               </span>
-        #             {{ end }}
-        #           </div>
-        #           {{ if $collapsible }}
-        #             <details class="margin-top-5">
-        #               <summary class="size-h5 color-subtle" style="cursor: pointer;">Metrics</summary>
-        #               <div class="margin-top-5">
-        #                 {{ if not $hideKernel }}
-        #                   <p style="font-size: 1em;">Kernel: {{ $info.String "k" }}</p>
-        #                 {{ end }}
-        #                 {{ if not $hideUptime }}
-        #                   {{ $uptimeSec := $info.Float "u" }}
-        #                   {{ if ge $uptimeSec 86400.0 }}
-        #                     <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000011574) }}d</p>
-        #                   {{ else }}
-        #                     <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000277778) }}h</p>
-        #                   {{ end }}
-        #                 {{ end }}
-        #                 {{ if not $hideCPUInfo }}
-        #                   <p style="font-size: 1em;">CPU: {{ replaceAll "CPU " "" ($info.String "m") }}</p>
-        #                 {{ end }}
-        #                 <p style="font-size: 1em; margin-top: 0.5em;">📊 Cpu: {{ $info.Float "cpu" }}%</p>
-        #                 <p style="font-size: 1em;">🧠 Memory: {{ $info.Float "mp" }}%</p>
-        #                 <p style="font-size: 1em;">💾 Disk: {{ $info.Float "dp" }}%</p>
-        #               </div>
-        #             </details>
-        #           {{ else }}
-        #             <div class="margin-top-5">
-        #               {{ if not $hideKernel }}
-        #                 <p style="font-size: 1em;">Kernel: {{ $info.String "k" }}</p>
-        #               {{ end }}
-        #               {{ if not $hideUptime }}
-        #                 {{ $uptimeSec := $info.Float "u" }}
-        #                 {{ if ge $uptimeSec 86400.0 }}
-        #                   <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000011574) }}d</p>
-        #                 {{ else }}
-        #                   <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000277778) }}h</p>
-        #                 {{ end }}
-        #               {{ end }}
-        #               {{ if not $hideCPUInfo }}
-        #                 <p style="font-size: 1em;">CPU: {{ replaceAll "CPU " "" ($info.String "m") }}</p>
-        #               {{ end }}
-        #               <p style="font-size: 1em; margin-top: 0.5em;">📊 Cpu: {{ $info.Float "cpu" }}%</p>
-        #               <p style="font-size: 1em;">🧠 Memory: {{ $info.Float "mp" }}%</p>
-        #               <p style="font-size: 1em;">💾 Disk: {{ $info.Float "dp" }}%</p>
-        #             </div>
-        #           {{ end }}
-        #         {{ end }}
+        - size: small
+          widgets:
+            - type: custom-api
+              cache: 30m
+              headers:
+                Authorization: Bearer ${LINKWARDEN_API_KEY}
+              method: GET                                                                                     
+              template: |
+                <ul class="list list-gap-10 collapsible-container" data-collapse-after="7">
+                  {{ range .JSON.Array "response" }}
+                    <li>
+                      {{ $title := .String "name" }}
+                      {{ if gt (len $title) 50 }}
+                        {{ $title = (slice $title 0 50) | printf "%s..." }}
+                      {{ end }}
+                      <a class="size-title-dynamic color-primary-if-not-visited"
+                        href="{{ .String "url" }}"
+                        target="_self"
+                        rel="noopener noreferrer">
+                        {{ $title }}
+                      </a>
+                      <ul class="list-horizontal-text">
+                        <li style="color: {{ .String "collection.color" }};">
+                          {{ .String "collection.name" }}
+                        </li>
+                        {{ $tags := .Array "tags" }}
+                        {{ range $index, $tag := $tags }}
+                          <li>{{ .String "name" }}</li>
+                        {{ end }}
+                      </ul>
+                    </li>
+                  {{ end }}
+                </ul>
+              title: Bookmarks
+              url: http://linkwarden.linkwarden.svc.cluster.local:80/api/v1/links
+        - size: full
+          widgets:
+            - type: custom-api
+              title: Beszel Metrics
+              url: http://beszel-hub.beszel.svc.cluster.local:8090/api/collections/systems/records
+              method: GET
+              options:
+                redirect-url: "" # You must use "" and http:// or https://
+              headers:
+                Authorization: Bearer ${BESZEL_TOKEN}
+                Accept: application/json
+              template: |
+                {{ $redirect := .Options.StringOr "redirect-url" "" }}
+                {{ $newTab := .Options.BoolOr "in-new-tab" false }}
+                {{ $hideKernel := .Options.BoolOr "hide-kernel" false }}
+                {{ $hideUptime := .Options.BoolOr "hide-uptime" false }}
+                {{ $hideCPUInfo := .Options.BoolOr "hide-cpu-info" false }}
+                {{ $hideIP := .Options.BoolOr "hide-ip" false }}
+                {{ $collapsible := .Options.BoolOr "collapsible" false }}
+                {{ $items := .JSON.Array "items" }}
+                {{ range $items }}
+                  {{ $info := .Get "info" }}
+                  {{ $name := .String "name" }}
+                  {{ $link := "" }}
+                  {{ if ne $redirect "" }}
+                    {{ $link = printf "%s/system/%s" $redirect $name }}
+                  {{ end }}
+                  <div style="font-size: 1.15em;">
+                    {{ if eq (.String "status") "up" }}
+                      <span class="status-dot color-positive">●</span>
+                    {{ else }}
+                      <span class="status-dot color-negative">●</span>
+                    {{ end }}
+                    {{ if ne $redirect "" }}
+                      <a class="color-highlight text-truncate" href="{{ printf "%s/system/%s" $redirect $name | safeURL }}" {{ if $newTab }}target="_blank" rel="noopener"{{ end }}>
+                        {{ $name }}{{ if not $hideIP }} ({{ .String "host" }}){{ end }}
+                      </a>
+                    {{ else }}
+                      <span class="color-highlight text-truncate">
+                        {{ $name }}{{ if not $hideIP }} ({{ .String "host" }}){{ end }}
+                      </span>
+                    {{ end }}
+                  </div>
+                  {{ if $collapsible }}
+                    <details class="margin-top-5">
+                      <summary class="size-h5 color-subtle" style="cursor: pointer;">Metrics</summary>
+                      <div class="margin-top-5">
+                        {{ if not $hideKernel }}
+                          <p style="font-size: 1em;">Kernel: {{ $info.String "k" }}</p>
+                        {{ end }}
+                        {{ if not $hideUptime }}
+                          {{ $uptimeSec := $info.Float "u" }}
+                          {{ if ge $uptimeSec 86400.0 }}
+                            <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000011574) }}d</p>
+                          {{ else }}
+                            <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000277778) }}h</p>
+                          {{ end }}
+                        {{ end }}
+                        {{ if not $hideCPUInfo }}
+                          <p style="font-size: 1em;">CPU: {{ replaceAll "CPU " "" ($info.String "m") }}</p>
+                        {{ end }}
+                        <p style="font-size: 1em; margin-top: 0.5em;">📊 Cpu: {{ $info.Float "cpu" }}%</p>
+                        <p style="font-size: 1em;">🧠 Memory: {{ $info.Float "mp" }}%</p>
+                        <p style="font-size: 1em;">💾 Disk: {{ $info.Float "dp" }}%</p>
+                      </div>
+                    </details>
+                  {{ else }}
+                    <div class="margin-top-5">
+                      {{ if not $hideKernel }}
+                        <p style="font-size: 1em;">Kernel: {{ $info.String "k" }}</p>
+                      {{ end }}
+                      {{ if not $hideUptime }}
+                        {{ $uptimeSec := $info.Float "u" }}
+                        {{ if ge $uptimeSec 86400.0 }}
+                          <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000011574) }}d</p>
+                        {{ else }}
+                          <p style="font-size: 1em;">Uptime: {{ printf "%.2f" (mul $uptimeSec 0.000277778) }}h</p>
+                        {{ end }}
+                      {{ end }}
+                      {{ if not $hideCPUInfo }}
+                        <p style="font-size: 1em;">CPU: {{ replaceAll "CPU " "" ($info.String "m") }}</p>
+                      {{ end }}
+                      <p style="font-size: 1em; margin-top: 0.5em;">📊 Cpu: {{ $info.Float "cpu" }}%</p>
+                      <p style="font-size: 1em;">🧠 Memory: {{ $info.Float "mp" }}%</p>
+                      <p style="font-size: 1em;">💾 Disk: {{ $info.Float "dp" }}%</p>
+                    </div>
+                  {{ end }}
+                {{ end }}
