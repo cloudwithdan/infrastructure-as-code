@@ -63,6 +63,7 @@ spec:
     retentionPolicy: 7d
     barmanObjectStore:
       destinationPath: 's3://talos-lj-backup/'
+      serverName: postgres18-restored  # Use different name to avoid WAL archive conflict
       s3Credentials:
         accessKeyId:
           name: s3-creds
