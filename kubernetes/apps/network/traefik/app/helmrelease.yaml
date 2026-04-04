@@ -23,3 +23,15 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
+  values:
+    providers:
+      kubernetesCRD:
+        enabled: true
+        allowCrossNamespace: true
+        ingressClass: traefik
+      kubernetesIngress:
+        enabled: true
+        allowExternalNameServices: true
+        ingressClass: traefik
+        publishedService:
+          enabled: true
