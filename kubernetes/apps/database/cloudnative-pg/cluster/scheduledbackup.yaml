@@ -6,7 +6,7 @@ metadata:
 spec:
   schedule: "0 0 0 * * *"
   suspend: false
-  immediate: true
+  immediate: false
   backupOwnerReference: self
   cluster:
     name: postgres18
