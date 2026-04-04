@@ -7,4 +7,5 @@ resources:
   - ./pihole-system/ks.yaml
   - ./metallb-system/ks.yaml
   - ./traefik/ks.yaml
+  - ./traefik-internal/ks.yaml
   - ./cloudflared/ks.yaml

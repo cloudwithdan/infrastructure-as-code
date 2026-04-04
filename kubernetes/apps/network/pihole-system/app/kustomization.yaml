@@ -6,3 +6,4 @@ resources:
   - ./helmrelease.yaml
   - ./secret.sops.yaml
   - ./pihole-exporter.yaml
+  - ./ingress-internal.yaml

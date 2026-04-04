@@ -37,7 +37,16 @@ spec:
       storageClass: "longhorn"
 
     ingress:
-      enabled: false
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
+      ingressClassName: internal
+      hosts:
+        - pihole.${SECRET_INTERNAL_DOMAIN}
+      tls:
+        - secretName: pihole-tls
+          hosts:
+            - pihole.${SECRET_INTERNAL_DOMAIN}
 
     extraEnvVars:
       FTLCONF_webserver_port: "80"
