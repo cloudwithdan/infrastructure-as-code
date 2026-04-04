@@ -44,30 +44,6 @@ spec:
       annotations:
         metallb.universe.tf/loadBalancerIPs: ""
 
-    ports:
-      web:
-        port: 80
-        expose:
-          default: true
-        exposedPort: 80
-      websecure:
-        port: 443
-        expose:
-          default: true
-        exposedPort: 443
-        tls:
-          enabled: true
-      traefik:
-        port: 9000
-        expose:
-          default: true
-        exposedPort: 9000
-      metrics:
-        port: 9100
-        expose:
-          default: false
-        exposedPort: 9100
-
     metrics:
       prometheus:
         enabled: true
@@ -89,12 +65,3 @@ spec:
         allowExternalNameServices: true
         publishedService:
           enabled: true
-
-    globalArguments:
-      - "--global.checknewversion=false"
-      - "--global.sendanonymoususage=false"
-
-    additionalArguments:
-      - "--api.dashboard=true"
-      - "--api.insecure=false"
-      - "--serverstransport.insecureskipverify=true"
