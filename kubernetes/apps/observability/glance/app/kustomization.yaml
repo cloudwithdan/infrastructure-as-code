@@ -6,7 +6,7 @@ resources:
   - ./deployment.yaml
   - ./service.yaml
   - ./middleware.yaml
-  - ./ingress.yaml
+  - ./ingress-route.yaml
 configMapGenerator:
   - name: glance-configmap
     namespace: glance
