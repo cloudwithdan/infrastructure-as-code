@@ -39,7 +39,7 @@ pages:
                   icon: di:pi-hole
                 - title: Glance
                   url: https://home.${SECRET_EXTERNAL_DOMAIN}
-                  check-url: http://glance.glance.svc.cluster.local:8080
+                  check-url: http://glance.observability.svc.cluster.local:8080
                   icon: di:glance
                 - title: Linkwarden
                   url: https://bookmarks.${SECRET_EXTERNAL_DOMAIN}

@@ -12,9 +12,6 @@ spec:
   routes:
     - match: Host(`home.${SECRET_EXTERNAL_DOMAIN}`)
       kind: Rule
-      middlewares:
-        - name: authentik-forwardauth
-          namespace: observability
       services:
         - name: glance
           port: 8080
