@@ -6,7 +6,7 @@ resources:
   - ./deployment.yaml
   - ./service.yaml
   - ./middleware.yaml
-  - ./ingress-route.yaml
+  - ./ingress.yaml
 configMapGenerator:
   - name: glance-configmap
     namespace: observability
