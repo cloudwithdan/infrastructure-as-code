@@ -7,3 +7,4 @@ resources:
   - ./linkwarden/ks.yaml
   - ./uptime-kuma/ks.yaml
   - ./web/ks.yaml
+  - ./blog/ks.yaml
