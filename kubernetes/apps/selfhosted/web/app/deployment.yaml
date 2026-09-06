@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web
-  namespace: web
+  namespace: selfhosted
   labels:
     app: web
 spec:

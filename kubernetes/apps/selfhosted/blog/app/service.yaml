@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: blog
   namespace: selfhosted
 spec:
   ports:
-    - name: web
+    - name: blog
       port: 8080
-      targetPort: web
+      targetPort: blog
   selector:
-    app: web
+    app: blog
   type: ClusterIP
