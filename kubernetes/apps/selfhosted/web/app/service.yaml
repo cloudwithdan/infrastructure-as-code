@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: web
+spec:
+  ports:
+    - name: web
+      port: 8080
+      targetPort: web
+  selector:
+    app: web
+  type: ClusterIP
