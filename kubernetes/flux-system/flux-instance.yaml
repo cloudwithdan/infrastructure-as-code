@@ -23,7 +23,7 @@ spec:
   sync:
     kind: GitRepository
     url: "https://github.com/cloudwithdan/infrastructure-as-code.git"
-    ref: "refs/heads/cluster-v2"
+    ref: "refs/heads/main"
     path: "kubernetes/flux-system"
     interval: 1m
   kustomize:
