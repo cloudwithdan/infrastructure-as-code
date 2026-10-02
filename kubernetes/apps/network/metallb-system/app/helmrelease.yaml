@@ -17,3 +17,11 @@ spec:
         namespace: flux-system
   values:
     installCRDs: true
+
+    controller:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
+
+    speaker:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02

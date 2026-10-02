@@ -69,4 +69,4 @@ spec:
     replicaCount: 1
 
     nodeSelector:
-      kubernetes.io/hostname: talos-worker-eu-01
+      kubernetes.io/hostname: talos-worker-eu-02

@@ -23,6 +23,10 @@ spec:
     remediation:
       retries: 3
   values:
+    defaultPodOptions:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
+
     controllers:
       cloudflared:
         strategy: RollingUpdate
