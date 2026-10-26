@@ -17,7 +17,7 @@ spec:
         kubernetes.io/hostname: talos-worker-eu-02
       containers:
         - name: pihole-exporter
-          image: ekofr/pihole-exporter:v1.2.0
+          image: ekofr/pihole-exporter:v1.3.0
           ports:
             - containerPort: 9617
           env:
