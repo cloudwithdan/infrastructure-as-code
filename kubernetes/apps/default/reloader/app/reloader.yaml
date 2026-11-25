@@ -92,6 +92,8 @@ spec:
       labels:
         app: reloader-reloader
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
       containers:
       - env:
         - name: GOMAXPROCS
