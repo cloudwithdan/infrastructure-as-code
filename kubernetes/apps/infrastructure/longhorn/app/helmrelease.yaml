@@ -26,8 +26,10 @@ spec:
   values:
     persistence:
       defaultClass: true
+      defaultClassReplicaCount: 1
     defaultSettings:
       defaultDataPath: /var/lib/longhorn
+      defaultReplicaCount: 1
       systemManagedPodsNodeSelector: "kubernetes.io/os:linux"
     # defaultBackupStore:
     #   backupTarget: "s3://talos-lj-backup@eu-central-1/"
