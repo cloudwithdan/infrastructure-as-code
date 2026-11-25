@@ -8,7 +8,7 @@ resources:
   - ./helmrelease.yaml
 configMapGenerator:
   - name: cloudflared-configmap
-    namespace: cloudflared
+    namespace: avto-masini
     files:
       - ./config/config.yaml
 generatorOptions:
