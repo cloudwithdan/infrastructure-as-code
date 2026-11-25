@@ -18,6 +18,8 @@ spec:
       labels:
         app: glance
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
       containers:
         - name: glance
           image: docker.io/glanceapp/glance:latest

@@ -18,6 +18,8 @@ spec:
       labels:
         app: linkwarden
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
       initContainers:
         # Ensure database exists before app starts
         - name: init-db

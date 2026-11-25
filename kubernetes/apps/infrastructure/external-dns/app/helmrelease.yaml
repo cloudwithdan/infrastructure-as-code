@@ -22,6 +22,8 @@ spec:
     serviceAccount:
       create: true
       name: "external-dns"
+    nodeSelector:
+      kubernetes.io/hostname: talos-worker-eu-02
     provider: cloudflare
     env:
       - name: CF_API_TOKEN
@@ -60,6 +62,8 @@ spec:
         namespace: flux-system
   values:
     fullnameOverride: *app
+    nodeSelector:
+      kubernetes.io/hostname: talos-worker-eu-02
     provider: pihole
     policy: upsert-only
     registry: noop
