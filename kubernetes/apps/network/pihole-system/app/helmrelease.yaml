@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: pihole
-      version: 3.0.0-rc.4
+      version: 2.39.0
       sourceRef:
         kind: HelmRepository
         name: mojo2600
@@ -61,7 +61,6 @@ spec:
       type: LoadBalancer
 
     serviceDns:
-      mixedService: false
       loadBalancerIP: 10.0.10.200
       annotations:
         metallb.io/allow-shared-ip: pihole-svc
