@@ -26,6 +26,9 @@ spec:
 
   values:
     global:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
+
       deploymentAnnotations:
         reloader.stakater.com/auto: "true"
 

@@ -5,7 +5,10 @@ metadata:
   name: postgres18
 spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:18.3
-  instances: 2
+  instances: 1
+  affinity:
+    nodeSelector:
+      kubernetes.io/hostname: talos-worker-eu-02
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
 
