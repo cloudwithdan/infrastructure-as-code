@@ -7,6 +7,7 @@ metadata:
   namespace: network
 spec:
   interval: 30m
+  timeout: 15m
   chart:
     spec:
       chart: traefik
@@ -41,8 +42,8 @@ spec:
 
     service:
       enabled: true
-      type: LoadBalancer
       spec:
+        type: LoadBalancer
         externalTrafficPolicy: Cluster
       annotations:
         metallb.universe.tf/loadBalancerIPs: ""
@@ -78,11 +79,11 @@ spec:
         serviceMonitor:
           enabled: true
 
-    logs:
-      general:
-        level: INFO
-      access:
-        enabled: true
+    log:
+      level: INFO
+
+    accessLog:
+      enabled: true
 
     providers:
       kubernetesCRD:

@@ -20,7 +20,6 @@ spec:
       retries: 3
   upgrade:
     cleanupOnFail: true
-    force: true # Remove after the app-template v3-to-v5 selector migration succeeds.
     remediation:
       retries: 3
   values:
