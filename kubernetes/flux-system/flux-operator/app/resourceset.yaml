@@ -34,3 +34,6 @@ spec:
         chartRef:
           kind: OCIRepository
           name: << inputs.name >>
+        values:
+          nodeSelector:
+            kubernetes.io/hostname: talos-worker-eu-02

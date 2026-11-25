@@ -29,6 +29,12 @@ spec:
   kustomize:
     patches:
       - target:
+          kind: Deployment
+        patch: |
+          - op: add
+            path: /spec/template/spec/nodeSelector/kubernetes.io~1hostname
+            value: talos-worker-eu-02
+      - target:
           kind: Kustomization
           name: flux-system
         patch: |
