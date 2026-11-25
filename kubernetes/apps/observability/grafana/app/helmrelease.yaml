@@ -24,6 +24,9 @@ spec:
       valuesKey: AUTH_CLIENT_SECRET
       targetPath: grafana\.ini.auth\.generic_oauth.client_secret
   values:
+    nodeSelector:
+      kubernetes.io/hostname: talos-worker-eu-02
+
     # alerting:
     #   contactpoints.yaml:
     #     secret:

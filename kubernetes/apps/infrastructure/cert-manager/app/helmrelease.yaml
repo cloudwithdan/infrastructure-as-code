@@ -24,6 +24,12 @@ spec:
   values:
     nodeSelector:
       kubernetes.io/hostname: talos-worker-eu-02
+    webhook:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
+    cainjector:
+      nodeSelector:
+        kubernetes.io/hostname: talos-worker-eu-02
     podDnsPolicy: "None"
     podDnsConfig:
       nameservers:

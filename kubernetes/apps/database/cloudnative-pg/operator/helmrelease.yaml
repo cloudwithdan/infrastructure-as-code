@@ -25,6 +25,9 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    nodeSelector:
+      kubernetes.io/hostname: talos-worker-eu-02
+
     crds:
       create: true
     monitoring:
