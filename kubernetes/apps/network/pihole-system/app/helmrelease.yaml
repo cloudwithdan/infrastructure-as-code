@@ -23,46 +23,11 @@ spec:
 
     doh:
       enabled: true
-      config: |
-        server_names = ['quad9-doh-ip4-port443-filter-pri', 'cloudflare']
-        lb_strategy = 'first'
-        listen_addresses = ['0.0.0.0:5053']
-        require_dnssec = false
-        require_nolog = true
-        require_nofilter = true
-        dnscrypt_servers = true
-        doh_servers = true
-        odoh_servers = false
-        ipv6_servers = false
-        bootstrap_resolvers = ['9.9.9.9:53', '1.1.1.1:53']
-        timeout = 5000
-        keepalive = 30
-        log_level = 2
-        use_syslog = false
-        cache = true
-        cache_size = 4096
-        cache_min_ttl = 2400
-        cache_max_ttl = 86400
-        cache_neg_min_ttl = 60
-        cache_neg_max_ttl = 600
-
-        [sources]
-          [sources.'public-resolvers']
-            urls = [
-              'https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md',
-              'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md'
-            ]
-            cache_file = '/tmp/public-resolvers.md'
-            minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
-            refresh_delay = 73
-          [sources.'relays']
-            urls = [
-              'https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/relays.md',
-              'https://download.dnscrypt.info/resolvers-list/v3/relays.md'
-            ]
-            cache_file = '/tmp/relays.md'
-            minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
-            refresh_delay = 73
+      repository: "crazymax/cloudflared"
+      tag: latest
+      pullPolicy: IfNotPresent
+      envVars:
+        TUNNEL_DNS_UPSTREAM: "https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"
 
     persistentVolumeClaim:
       enabled: true
